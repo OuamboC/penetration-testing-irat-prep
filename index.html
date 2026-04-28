@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IRAT Prep — Cybersecurity Module</title>
+<title>IRAT Prep - Cybersecurity</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -31,7 +31,6 @@
     overflow-x: hidden;
   }
 
-  /* Grid background */
   body::before {
     content: '';
     position: fixed;
@@ -47,7 +46,7 @@
   .container {
     position: relative;
     z-index: 1;
-    max-width: 900px;
+    max-width: 760px;
     margin: 0 auto;
     padding: 40px 20px 80px;
   }
@@ -56,7 +55,7 @@
   header {
     border-left: 4px solid var(--accent);
     padding-left: 20px;
-    margin-bottom: 48px;
+    margin-bottom: 36px;
   }
   header .tag {
     font-family: 'Space Mono', monospace;
@@ -67,161 +66,85 @@
     margin-bottom: 8px;
   }
   header h1 {
-    font-size: clamp(28px, 5vw, 48px);
+    font-size: clamp(24px, 5vw, 40px);
     font-weight: 800;
     line-height: 1.1;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   header h1 span { color: var(--accent); }
-  header p {
-    color: var(--muted);
-    font-size: 15px;
-    max-width: 600px;
-  }
+  header p { color: var(--muted); font-size: 14px; }
 
-  /* STATS BAR */
-  .stats-bar {
+  /* PROGRESS BAR */
+  .progress-wrap { margin-bottom: 32px; }
+  .progress-meta {
     display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-  }
-  .stat-chip {
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    padding: 6px 14px;
-    border-radius: 4px;
-    border: 1px solid;
-  }
-  .stat-chip.easy { border-color: var(--easy); color: var(--easy); }
-  .stat-chip.medium { border-color: var(--medium); color: var(--medium); }
-  .stat-chip.hard { border-color: var(--hard); color: var(--hard); }
-  .stat-chip.scenario { border-color: var(--scenario); color: var(--scenario); }
-  .stat-chip.total { border-color: var(--accent); color: var(--accent); }
-
-  /* SCORE TRACKER */
-  .score-tracker {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--accent);
-    padding: 20px 24px;
-    margin-bottom: 40px;
-    display: flex;
-    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .score-left {
     font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
   }
-  .score-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
-  .score-value { font-size: 32px; font-weight: 700; color: var(--accent); margin-top: 4px; }
-  .score-right {
-    display: flex; gap: 12px; flex-wrap: wrap;
+  .progress-meta span { color: var(--accent); }
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
   }
-  .btn {
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    padding: 10px 20px;
-    border: 1px solid var(--accent);
-    background: transparent;
-    color: var(--accent);
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
   }
-  .btn:hover { background: var(--accent); color: var(--bg); }
-  .btn.danger { border-color: var(--accent2); color: var(--accent2); }
-  .btn.danger:hover { background: var(--accent2); color: white; }
-
-  /* SECTION */
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 24px;
-    margin-top: 48px;
-  }
-  .section-dot {
-    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
-  }
-  .section-dot.easy { background: var(--easy); }
-  .section-dot.medium { background: var(--medium); }
-  .section-dot.hard { background: var(--hard); }
-  .section-dot.scenario { background: var(--scenario); }
-
-  .section-title {
-    font-size: 13px;
-    font-family: 'Space Mono', monospace;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-  }
-  .section-title.easy { color: var(--easy); }
-  .section-title.medium { color: var(--medium); }
-  .section-title.hard { color: var(--hard); }
-  .section-title.scenario { color: var(--scenario); }
-  .section-line { flex: 1; height: 1px; background: var(--border); }
 
   /* QUESTION CARD */
   .question-card {
     background: var(--panel);
     border: 1px solid var(--border);
-    margin-bottom: 16px;
-    transition: border-color 0.2s;
-    overflow: hidden;
+    padding: 28px;
+    margin-bottom: 0;
+    animation: fadeIn 0.3s ease;
   }
-  .question-card.answered-correct { border-color: var(--easy); }
-  .question-card.answered-wrong { border-color: var(--accent2); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .q-header {
-    padding: 18px 22px;
+  .q-meta {
     display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    cursor: pointer;
-    user-select: none;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
   }
   .q-num {
     font-family: 'Space Mono', monospace;
     font-size: 11px;
     color: var(--muted);
-    min-width: 28px;
-    padding-top: 2px;
-  }
-  .q-text {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.55;
-    flex: 1;
   }
   .q-badge {
     font-family: 'Space Mono', monospace;
     font-size: 10px;
-    padding: 3px 8px;
+    padding: 3px 10px;
     border-radius: 2px;
-    margin-left: auto;
-    flex-shrink: 0;
-    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
   .q-badge.easy { background: rgba(127,255,110,0.1); color: var(--easy); }
   .q-badge.medium { background: rgba(255,210,77,0.1); color: var(--medium); }
   .q-badge.hard { background: rgba(255,60,110,0.1); color: var(--hard); }
   .q-badge.scenario { background: rgba(177,111,255,0.1); color: var(--scenario); }
 
-  /* OPTIONS */
-  .q-options {
-    padding: 0 22px 20px 64px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  .q-text {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.55;
+    margin-bottom: 24px;
   }
+
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
   .option {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 12px 16px;
+    gap: 14px;
+    padding: 13px 16px;
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text);
@@ -232,81 +155,191 @@
     transition: all 0.15s;
     width: 100%;
     line-height: 1.5;
+    border-radius: 2px;
   }
-  .option:hover { border-color: var(--accent); background: rgba(0,229,255,0.04); }
+  .option:hover:not(:disabled) { border-color: var(--accent); background: rgba(0,229,255,0.04); }
+  .option:disabled { cursor: default; }
   .option.selected { border-color: var(--accent); background: rgba(0,229,255,0.08); }
   .option.correct { border-color: var(--easy); background: rgba(127,255,110,0.1); color: var(--easy); }
   .option.wrong { border-color: var(--accent2); background: rgba(255,60,110,0.08); color: var(--accent2); }
-  .option.reveal-correct { border-color: var(--easy); background: rgba(127,255,110,0.06); }
+  .option.reveal { border-color: var(--easy); background: rgba(127,255,110,0.06); }
   .option-letter {
     font-family: 'Space Mono', monospace;
     font-size: 11px;
     min-width: 18px;
     color: var(--muted);
-    padding-top: 1px;
+    padding-top: 2px;
+    flex-shrink: 0;
   }
   .option.correct .option-letter,
-  .option.reveal-correct .option-letter { color: var(--easy); }
+  .option.reveal .option-letter { color: var(--easy); }
   .option.wrong .option-letter { color: var(--accent2); }
 
-  /* EXPLANATION */
-  .explanation {
-    margin: 4px 22px 16px 64px;
+  /* FEEDBACK */
+  .feedback {
+    display: none;
+    margin-bottom: 20px;
+  }
+  .feedback.show { display: block; animation: fadeIn 0.25s ease; }
+
+  .feedback-banner {
+    padding: 10px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .feedback-banner.correct-banner { background: rgba(127,255,110,0.1); color: var(--easy); border-left: 3px solid var(--easy); }
+  .feedback-banner.wrong-banner { background: rgba(255,60,110,0.08); color: var(--accent2); border-left: 3px solid var(--accent2); }
+
+  .explanation-box {
     padding: 14px 16px;
     background: rgba(0,229,255,0.04);
     border-left: 3px solid var(--accent);
     font-size: 13px;
     color: var(--muted);
-    line-height: 1.6;
-    display: none;
+    line-height: 1.65;
   }
-  .explanation.show { display: block; }
-  .explanation strong { color: var(--accent); }
+  .explanation-box strong { color: var(--text); }
 
-  /* PROGRESS BAR */
-  .progress-wrap {
-    margin-bottom: 32px;
+  /* NOTES */
+  .notes-wrap {
+    display: none;
+    margin-bottom: 20px;
   }
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
+  .notes-wrap.show { display: block; animation: fadeIn 0.25s ease; }
+  .notes-label {
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
     margin-bottom: 8px;
   }
-  .progress-bar {
-    height: 4px;
-    background: var(--border);
+  .notes-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    padding: 12px 14px;
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.5;
+    transition: border-color 0.2s;
     border-radius: 2px;
-    overflow: hidden;
   }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    transition: width 0.4s ease;
-    border-radius: 2px;
-  }
+  .notes-input:focus { outline: none; border-color: var(--accent); }
+  .notes-input::placeholder { color: var(--muted); }
 
-  /* RESULT PANEL */
-  #result-panel {
+  /* BUTTONS */
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    padding: 11px 22px;
+    border: 1px solid;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .btn-primary { border-color: var(--accent); color: var(--accent); }
+  .btn-primary:hover { background: var(--accent); color: var(--bg); }
+  .btn-primary:disabled { opacity: 0.3; cursor: default; }
+  .btn-next { border-color: var(--easy); color: var(--easy); display: none; }
+  .btn-next:hover { background: var(--easy); color: var(--bg); }
+  .btn-next.show { display: block; }
+
+  /* SCORE SUMMARY */
+  #summary {
     display: none;
     background: var(--panel);
     border: 1px solid var(--border);
     border-top: 3px solid var(--accent3);
-    padding: 32px;
-    margin-top: 48px;
+    padding: 40px 28px;
+    animation: fadeIn 0.4s ease;
+  }
+  #summary.show { display: block; }
+  #summary h2 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+  #summary .grade {
+    font-family: 'Space Mono', monospace;
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 16px 0 8px;
+    line-height: 1;
+  }
+  #summary .sub { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .score-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .score-chip {
+    padding: 14px;
+    border: 1px solid var(--border);
     text-align: center;
   }
-  #result-panel.show { display: block; }
-  #result-panel h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
-  #result-panel .grade { font-size: 64px; font-weight: 800; font-family: 'Space Mono', monospace; color: var(--accent); margin: 16px 0; }
-  #result-panel p { color: var(--muted); font-size: 14px; }
+  .score-chip .chip-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .score-chip .chip-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .score-chip.easy .chip-val { color: var(--easy); }
+  .score-chip.medium .chip-val { color: var(--medium); }
+  .score-chip.hard .chip-val { color: var(--hard); }
+  .score-chip.scenario .chip-val { color: var(--scenario); }
 
-  @media (max-width: 600px) {
-    .q-options { padding-left: 22px; }
-    .explanation { margin-left: 22px; }
-    .q-badge { display: none; }
+  #summary .result-msg {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  /* NOTES REVIEW */
+  .notes-review { margin-top: 32px; }
+  .notes-review h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .note-item {
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+    padding: 14px 16px;
+  }
+  .note-item .note-q {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 6px;
+  }
+  .note-item .note-text {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.55;
+    white-space: pre-wrap;
+  }
+
+  @media (max-width: 500px) {
+    .question-card { padding: 20px 16px; }
   }
 </style>
 </head>
@@ -314,910 +347,544 @@
 <div class="container">
 
   <header>
-    <div class="tag">// IRAT Preparation — Session 01</div>
-    <h1>Cybersecurity<br><span>Practice Quiz</span></h1>
-    <p>Vulnerability Scanning · CVSS · Penetration Testing · All questions drawn from your pre-work materials.</p>
+    <div class="tag">// IRAT Preparation</div>
+    <h1>Penetration Testing<br><span>Quiz</span></h1>
+    <p>45 questions - answer one at a time, get instant feedback, take notes as you go.</p>
   </header>
 
-  <div class="stats-bar">
-    <div class="stat-chip easy">Easy × 13</div>
-    <div class="stat-chip medium">Medium × 13</div>
-    <div class="stat-chip hard">Hard × 10</div>
-    <div class="stat-chip scenario">Scenario × 9</div>
-    <div class="stat-chip total">Total: 45 Questions</div>
-  </div>
-
-  <div class="score-tracker">
-    <div class="score-left">
-      <div class="score-label">Score</div>
-      <div class="score-value" id="live-score">0 / 45</div>
-    </div>
-    <div class="score-right">
-      <button class="btn" onclick="checkAll()">Submit All</button>
-      <button class="btn danger" onclick="resetAll()">Reset</button>
-    </div>
-  </div>
-
   <div class="progress-wrap">
-    <div class="progress-label">
-      <span>Progress</span>
-      <span id="progress-text">0 answered</span>
+    <div class="progress-meta">
+      <span>Question <span id="q-counter">1</span> of 45</span>
+      <span id="score-live">Score: <span>0</span></span>
     </div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
   </div>
 
-  <!-- ===== EASY ===== -->
-  <div class="section-header">
-    <div class="section-dot easy"></div>
-    <div class="section-title easy">Easy — Recall & Definition</div>
-    <div class="section-line"></div>
+  <!-- QUESTION AREA -->
+  <div id="question-area">
+    <div class="question-card" id="q-card">
+      <div class="q-meta">
+        <span class="q-num" id="q-num">01 / 45</span>
+        <span class="q-badge" id="q-badge">EASY</span>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options-list"></div>
+
+      <div class="feedback" id="feedback">
+        <div class="feedback-banner" id="feedback-banner"></div>
+        <div class="explanation-box" id="explanation-text"></div>
+      </div>
+
+      <div class="notes-wrap" id="notes-wrap">
+        <div class="notes-label">My notes</div>
+        <textarea class="notes-input" id="notes-input" placeholder="Write anything you want to remember about this question..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-submit" onclick="submitAnswer()">Submit</button>
+        <button class="btn btn-next" id="btn-next" onclick="nextQuestion()">Next Question</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Q1 -->
-  <div class="question-card" id="card-1">
-    <div class="q-header" onclick="toggleCard(1)">
-      <span class="q-num">01</span>
-      <span class="q-text">What is the primary purpose of vulnerability scanning?</span>
-      <span class="q-badge easy">EASY</span>
+  <!-- SUMMARY -->
+  <div id="summary">
+    <h2>Quiz Complete</h2>
+    <div class="grade" id="final-pct">--</div>
+    <div class="sub" id="final-fraction">0 / 45 correct</div>
+    <div class="score-breakdown">
+      <div class="score-chip easy"><div class="chip-val" id="s-easy">0/13</div><div class="chip-label">Easy</div></div>
+      <div class="score-chip medium"><div class="chip-val" id="s-medium">0/13</div><div class="chip-label">Medium</div></div>
+      <div class="score-chip hard"><div class="chip-val" id="s-hard">0/10</div><div class="chip-label">Hard</div></div>
+      <div class="score-chip scenario"><div class="chip-val" id="s-scenario">0/9</div><div class="chip-label">Scenario</div></div>
     </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(1,'A')" id="1-A"><span class="option-letter">A</span> To exploit vulnerabilities in a target system to gain access</button>
-      <button class="option" onclick="selectOption(1,'B')" id="1-B"><span class="option-letter">B</span> To build an inventory of network devices and identify vulnerabilities that may affect each one</button>
-      <button class="option" onclick="selectOption(1,'C')" id="1-C"><span class="option-letter">C</span> To perform social engineering attacks on employees</button>
-      <button class="option" onclick="selectOption(1,'D')" id="1-D"><span class="option-letter">D</span> To replace firewall and IPS systems entirely</button>
-    </div>
-    <div class="explanation" id="exp-1"><strong>Correct: B.</strong> Vulnerability scanning builds an inventory of all devices on a network and creates a list of vulnerabilities that may affect each device. It is about identification and remediation, not exploitation.</div>
-  </div>
+    <div class="result-msg" id="result-msg"></div>
+    <button class="btn btn-primary" onclick="restartQuiz()">Restart Quiz</button>
 
-  <!-- Q2 -->
-  <div class="question-card" id="card-2">
-    <div class="q-header" onclick="toggleCard(2)">
-      <span class="q-num">02</span>
-      <span class="q-text">What does CVE stand for?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(2,'A')" id="2-A"><span class="option-letter">A</span> Common Vulnerability Exposure</button>
-      <button class="option" onclick="selectOption(2,'B')" id="2-B"><span class="option-letter">B</span> Cyber Vulnerability Entry</button>
-      <button class="option" onclick="selectOption(2,'C')" id="2-C"><span class="option-letter">C</span> Common Vulnerabilities and Exposures</button>
-      <button class="option" onclick="selectOption(2,'D')" id="2-D"><span class="option-letter">D</span> Critical Vulnerability Evaluation</button>
-    </div>
-    <div class="explanation" id="exp-2"><strong>Correct: C.</strong> CVE stands for Common Vulnerabilities and Exposures — a publicly known list of vulnerabilities documented along with the software versions they affect.</div>
-  </div>
-
-  <!-- Q3 -->
-  <div class="question-card" id="card-3">
-    <div class="q-header" onclick="toggleCard(3)">
-      <span class="q-num">03</span>
-      <span class="q-text">What score range does CVSS use to rate vulnerability severity?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(3,'A')" id="3-A"><span class="option-letter">A</span> 1–5</button>
-      <button class="option" onclick="selectOption(3,'B')" id="3-B"><span class="option-letter">B</span> 0–100</button>
-      <button class="option" onclick="selectOption(3,'C')" id="3-C"><span class="option-letter">C</span> 0–10</button>
-      <button class="option" onclick="selectOption(3,'D')" id="3-D"><span class="option-letter">D</span> 1–10</button>
-    </div>
-    <div class="explanation" id="exp-3"><strong>Correct: C.</strong> CVSS scores range from 0 to 10, where 0 is least severe and 10 is the most severe.</div>
-  </div>
-
-  <!-- Q4 -->
-  <div class="question-card" id="card-4">
-    <div class="q-header" onclick="toggleCard(4)">
-      <span class="q-num">04</span>
-      <span class="q-text">An authenticated (credentialed) scan differs from an unauthenticated scan in what key way?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(4,'A')" id="4-A"><span class="option-letter">A</span> It is much faster and produces fewer results</button>
-      <button class="option" onclick="selectOption(4,'B')" id="4-B"><span class="option-letter">B</span> It gains information from inside the device using admin credentials for an accurate assessment</button>
-      <button class="option" onclick="selectOption(4,'C')" id="4-C"><span class="option-letter">C</span> It only scans external-facing ports</button>
-      <button class="option" onclick="selectOption(4,'D')" id="4-D"><span class="option-letter">D</span> It simulates an attacker's perspective from outside the network</button>
-    </div>
-    <div class="explanation" id="exp-4"><strong>Correct: B.</strong> An authenticated scan uses administrative credentials to access the device from within, providing a far more accurate vulnerability assessment used to drive remediation.</div>
-  </div>
-
-  <!-- Q5 -->
-  <div class="question-card" id="card-5">
-    <div class="q-header" onclick="toggleCard(5)">
-      <span class="q-num">05</span>
-      <span class="q-text">Which organisation currently owns and manages the CVSS framework?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(5,'A')" id="5-A"><span class="option-letter">A</span> NIST</button>
-      <button class="option" onclick="selectOption(5,'B')" id="5-B"><span class="option-letter">B</span> FIRST</button>
-      <button class="option" onclick="selectOption(5,'C')" id="5-C"><span class="option-letter">C</span> NIAC</button>
-      <button class="option" onclick="selectOption(5,'D')" id="5-D"><span class="option-letter">D</span> DHS / CISA</button>
-    </div>
-    <div class="explanation" id="exp-5"><strong>Correct: B.</strong> FIRST (Forum of Incident Response and Security Teams) owns and manages CVSS. NIAC originally introduced it in 2005.</div>
-  </div>
-
-  <!-- Q6 -->
-  <div class="question-card" id="card-6">
-    <div class="q-header" onclick="toggleCard(6)">
-      <span class="q-num">06</span>
-      <span class="q-text">Vulnerability scanners are NOT effective at detecting which type of vulnerability?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(6,'A')" id="6-A"><span class="option-letter">A</span> Known CVEs</button>
-      <button class="option" onclick="selectOption(6,'B')" id="6-B"><span class="option-letter">B</span> Default credential usage</button>
-      <button class="option" onclick="selectOption(6,'C')" id="6-C"><span class="option-letter">C</span> 0-day vulnerabilities</button>
-      <button class="option" onclick="selectOption(6,'D')" id="6-D"><span class="option-letter">D</span> Missing patches</button>
-    </div>
-    <div class="explanation" id="exp-6"><strong>Correct: C.</strong> Vulnerability scanners rely on databases of known vulnerabilities. They are not effective at detecting 0-day vulnerabilities because there are no known signatures for them yet.</div>
-  </div>
-
-  <!-- Q7 -->
-  <div class="question-card" id="card-7">
-    <div class="q-header" onclick="toggleCard(7)">
-      <span class="q-num">07</span>
-      <span class="q-text">A CVSS score of 9.5 falls into which severity category?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(7,'A')" id="7-A"><span class="option-letter">A</span> High</button>
-      <button class="option" onclick="selectOption(7,'B')" id="7-B"><span class="option-letter">B</span> Medium</button>
-      <button class="option" onclick="selectOption(7,'C')" id="7-C"><span class="option-letter">C</span> Critical</button>
-      <button class="option" onclick="selectOption(7,'D')" id="7-D"><span class="option-letter">D</span> Severe</button>
-    </div>
-    <div class="explanation" id="exp-7"><strong>Correct: C.</strong> Scores from 9.0–10.0 are rated Critical. High is 7.0–8.9, Medium is 4.0–6.9, and Low is 0.1–3.9.</div>
-  </div>
-
-  <!-- Q8 -->
-  <div class="question-card" id="card-8">
-    <div class="q-header" onclick="toggleCard(8)">
-      <span class="q-num">08</span>
-      <span class="q-text">What is the NCSC's definition of penetration testing?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(8,'A')" id="8-A"><span class="option-letter">A</span> Automated scanning of a network for known CVEs</button>
-      <button class="option" onclick="selectOption(8,'B')" id="8-B"><span class="option-letter">B</span> A method for gaining assurance in the security of an IT system by attempting to breach it using the same tools and techniques as an adversary</button>
-      <button class="option" onclick="selectOption(8,'C')" id="8-C"><span class="option-letter">C</span> Physical security testing of server rooms and data centres</button>
-      <button class="option" onclick="selectOption(8,'D')" id="8-D"><span class="option-letter">D</span> The process of installing security patches across an organisation</button>
-    </div>
-    <div class="explanation" id="exp-8"><strong>Correct: B.</strong> The NCSC defines pen testing as a method for gaining assurance in an IT system's security by attempting to breach it using the same tools and techniques as a real adversary.</div>
-  </div>
-
-  <!-- Q9 -->
-  <div class="question-card" id="card-9">
-    <div class="q-header" onclick="toggleCard(9)">
-      <span class="q-num">09</span>
-      <span class="q-text">Which of the following is a free/open-source vulnerability scanner?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(9,'A')" id="9-A"><span class="option-letter">A</span> InsightVM</button>
-      <button class="option" onclick="selectOption(9,'B')" id="9-B"><span class="option-letter">B</span> Nessus</button>
-      <button class="option" onclick="selectOption(9,'C')" id="9-C"><span class="option-letter">C</span> OpenVAS</button>
-      <button class="option" onclick="selectOption(9,'D')" id="9-D"><span class="option-letter">D</span> Qualys</button>
-    </div>
-    <div class="explanation" id="exp-9"><strong>Correct: C.</strong> OpenVAS, Nmap, and Nikto are free/open-source tools. InsightVM, Nessus, and Qualys are paid commercial scanners.</div>
-  </div>
-
-  <!-- Q10 -->
-  <div class="question-card" id="card-10">
-    <div class="q-header" onclick="toggleCard(10)">
-      <span class="q-num">10</span>
-      <span class="q-text">What is "fingerprinting" in the context of vulnerability scanning?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(10,'A')" id="10-A"><span class="option-letter">A</span> Collecting biometric data from device users</button>
-      <button class="option" onclick="selectOption(10,'B')" id="10-B"><span class="option-letter">B</span> Identifying operating systems and software versions by comparing responses with known indicators</button>
-      <button class="option" onclick="selectOption(10,'C')" id="10-C"><span class="option-letter">C</span> Logging all network traffic to a central database</button>
-      <button class="option" onclick="selectOption(10,'D')" id="10-D"><span class="option-letter">D</span> Encrypting scan results before sending to the console</button>
-    </div>
-    <div class="explanation" id="exp-10"><strong>Correct: B.</strong> Fingerprinting identifies the operating system and software versions on a device by comparing known indicators of hardware and software responses.</div>
-  </div>
-
-  <!-- ===== MEDIUM ===== -->
-  <div class="section-header">
-    <div class="section-dot medium"></div>
-    <div class="section-title medium">Medium — Understanding & Application</div>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- Q11 -->
-  <div class="question-card" id="card-11">
-    <div class="q-header" onclick="toggleCard(11)">
-      <span class="q-num">11</span>
-      <span class="q-text">Why does an unauthenticated scan tend to produce a high number of false positives?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(11,'A')" id="11-A"><span class="option-letter">A</span> It runs too many tests simultaneously, causing system crashes</button>
-      <button class="option" onclick="selectOption(11,'B')" id="11-B"><span class="option-letter">B</span> It cannot verify exact software versions without access, so it flags all potential issues for a detected service</button>
-      <button class="option" onclick="selectOption(11,'C')" id="11-C"><span class="option-letter">C</span> It deliberately over-reports to ensure nothing is missed</button>
-      <button class="option" onclick="selectOption(11,'D')" id="11-D"><span class="option-letter">D</span> It is not integrated with the CVE database</button>
-    </div>
-    <div class="explanation" id="exp-11"><strong>Correct: B.</strong> Without credentials, the scanner cannot determine the exact version of software running. For example, detecting OpenSSH remotely without device access means the scanner may flag ALL OpenSSH vulnerabilities.</div>
-  </div>
-
-  <!-- Q12 -->
-  <div class="question-card" id="card-12">
-    <div class="q-header" onclick="toggleCard(12)">
-      <span class="q-num">12</span>
-      <span class="q-text">Which CVSS metric group can change over time as patches or workarounds become available?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(12,'A')" id="12-A"><span class="option-letter">A</span> Base metrics</button>
-      <button class="option" onclick="selectOption(12,'B')" id="12-B"><span class="option-letter">B</span> Environmental metrics</button>
-      <button class="option" onclick="selectOption(12,'C')" id="12-C"><span class="option-letter">C</span> Temporal metrics</button>
-      <button class="option" onclick="selectOption(12,'D')" id="12-D"><span class="option-letter">D</span> Exploitability metrics</button>
-    </div>
-    <div class="explanation" id="exp-12"><strong>Correct: C.</strong> Temporal metrics represent properties of a vulnerability that can change over time — such as the release of an official patch or changes in exploit code maturity.</div>
-  </div>
-
-  <!-- Q13 -->
-  <div class="question-card" id="card-13">
-    <div class="q-header" onclick="toggleCard(13)">
-      <span class="q-num">13</span>
-      <span class="q-text">How does the NCSC distinguish penetration testing from a routine vulnerability assessment process?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(13,'A')" id="13-A"><span class="option-letter">A</span> Penetration testing should replace the internal vulnerability assessment process</button>
-      <button class="option" onclick="selectOption(13,'B')" id="13-B"><span class="option-letter">B</span> Pen testing is a method for gaining assurance in your vulnerability management processes, not a primary method for finding vulnerabilities</button>
-      <button class="option" onclick="selectOption(13,'C')" id="13-C"><span class="option-letter">C</span> They are the same thing and the terms are interchangeable</button>
-      <button class="option" onclick="selectOption(13,'D')" id="13-D"><span class="option-letter">D</span> Penetration testing is only used for web applications</button>
-    </div>
-    <div class="explanation" id="exp-13"><strong>Correct: B.</strong> The NCSC states pen testing should be viewed as a method for gaining assurance in your organisation's vulnerability assessment and management processes — not as the primary way to find vulnerabilities.</div>
-  </div>
-
-  <!-- Q14 -->
-  <div class="question-card" id="card-14">
-    <div class="q-header" onclick="toggleCard(14)">
-      <span class="q-num">14</span>
-      <span class="q-text">What is the key advantage of agent-based (host-based) scanning over network-based scanning?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(14,'A')" id="14-A"><span class="option-letter">A</span> It can scan printers and network devices which agents cannot run on</button>
-      <button class="option" onclick="selectOption(14,'B')" id="14-B"><span class="option-letter">B</span> It scans devices that are intermittently connected or outside the company network, like remote laptops</button>
-      <button class="option" onclick="selectOption(14,'C')" id="14-C"><span class="option-letter">C</span> It requires no administrative permissions on the host device</button>
-      <button class="option" onclick="selectOption(14,'D')" id="14-D"><span class="option-letter">D</span> It is always faster than a network-based scan</button>
-    </div>
-    <div class="explanation" id="exp-14"><strong>Correct: B.</strong> Agent-based scanning is especially useful for devices that are only intermittently connected to the company network, such as employee laptops at home. Network scanners can only scan devices available on the network at the time.</div>
-  </div>
-
-  <!-- Q15 -->
-  <div class="question-card" id="card-15">
-    <div class="q-header" onclick="toggleCard(15)">
-      <span class="q-num">15</span>
-      <span class="q-text">Which CVSS metric group is calculated by the end user (not the vendor) and is entirely optional?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(15,'A')" id="15-A"><span class="option-letter">A</span> Base metrics</button>
-      <button class="option" onclick="selectOption(15,'B')" id="15-B"><span class="option-letter">B</span> Temporal metrics</button>
-      <button class="option" onclick="selectOption(15,'C')" id="15-C"><span class="option-letter">C</span> Environmental metrics</button>
-      <button class="option" onclick="selectOption(15,'D')" id="15-D"><span class="option-letter">D</span> Impact metrics</button>
-    </div>
-    <div class="explanation" id="exp-15"><strong>Correct: C.</strong> The Environmental group score is calculated by the end user (not the vendor) and is optional. It refines the Base score to reflect the organisation's own environment and business context.</div>
-  </div>
-
-  <!-- Q16 -->
-  <div class="question-card" id="card-16">
-    <div class="q-header" onclick="toggleCard(16)">
-      <span class="q-num">16</span>
-      <span class="q-text">Why is it NOT advisable to allow a network-based vulnerability scanner full access to all ports across a firewall?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(16,'A')" id="16-A"><span class="option-letter">A</span> It would make the scan run too slowly</button>
-      <button class="option" onclick="selectOption(16,'B')" id="16-B"><span class="option-letter">B</span> It compromises network segmentation and security — the solution is to deploy secondary scanners in different network segments</button>
-      <button class="option" onclick="selectOption(16,'C')" id="16-C"><span class="option-letter">C</span> Scanners are not capable of handling that many connections</button>
-      <button class="option" onclick="selectOption(16,'D')" id="16-D"><span class="option-letter">D</span> Firewalls always block scanner traffic completely</button>
-    </div>
-    <div class="explanation" id="exp-16"><strong>Correct: B.</strong> Allowing full access through a firewall removes important security segmentation. The recommended solution is to deploy secondary scanners on different sides of the firewall, reporting back to the primary console over a single encrypted TCP connection.</div>
-  </div>
-
-  <!-- Q17 -->
-  <div class="question-card" id="card-17">
-    <div class="q-header" onclick="toggleCard(17)">
-      <span class="q-num">17</span>
-      <span class="q-text">What is a major limitation of relying solely on publicly available CVSS scores when prioritising vulnerability remediation?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(17,'A')" id="17-A"><span class="option-letter">A</span> Public CVSS scores are always inaccurate</button>
-      <button class="option" onclick="selectOption(17,'B')" id="17-B"><span class="option-letter">B</span> They only reflect Base scores and neglect real-world exploits, available mitigations, and the business context of the affected asset</button>
-      <button class="option" onclick="selectOption(17,'C')" id="17-C"><span class="option-letter">C</span> CVSS scores are not publicly available</button>
-      <button class="option" onclick="selectOption(17,'D')" id="17-D"><span class="option-letter">D</span> The scores change too frequently to rely on</button>
-    </div>
-    <div class="explanation" id="exp-17"><strong>Correct: B.</strong> Public databases (NIST NVD) only show Base scores. Sole reliance on these neglects real-world exploit availability, existing mitigations, and the specific importance of the affected asset to the organisation.</div>
-  </div>
-
-  <!-- Q18 -->
-  <div class="question-card" id="card-18">
-    <div class="q-header" onclick="toggleCard(18)">
-      <span class="q-num">18</span>
-      <span class="q-text">What are the three ways a vulnerability scanner discovers what type of device is on the network? (Choose the set that lists all three)</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(18,'A')" id="18-A"><span class="option-letter">A</span> Ping, SYN scan, UDP scan</button>
-      <button class="option" onclick="selectOption(18,'B')" id="18-B"><span class="option-letter">B</span> MAC address, port fingerprinting, banner grabbing</button>
-      <button class="option" onclick="selectOption(18,'C')" id="18-C"><span class="option-letter">C</span> Logs, enumeration, agent polling</button>
-      <button class="option" onclick="selectOption(18,'D')" id="18-D"><span class="option-letter">D</span> SNMP polling, WMI queries, SSH commands</button>
-    </div>
-    <div class="explanation" id="exp-18"><strong>Correct: B.</strong> The three fingerprinting techniques described are MAC address analysis, port fingerprinting (inferring OS from open ports), and banner grabbing (services responding with version info to Nmap probes).</div>
-  </div>
-
-  <!-- Q19 -->
-  <div class="question-card" id="card-19">
-    <div class="q-header" onclick="toggleCard(19)">
-      <span class="q-num">19</span>
-      <span class="q-text">In what key way does a penetration test differ from a vulnerability scan?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(19,'A')" id="19-A"><span class="option-letter">A</span> A vulnerability scan is manual; a penetration test is automated</button>
-      <button class="option" onclick="selectOption(19,'B')" id="19-B"><span class="option-letter">B</span> A penetration test identifies AND exploits vulnerabilities; a scan only identifies weaknesses</button>
-      <button class="option" onclick="selectOption(19,'C')" id="19-C"><span class="option-letter">C</span> Penetration tests only target web applications</button>
-      <button class="option" onclick="selectOption(19,'D')" id="19-D"><span class="option-letter">D</span> Vulnerability scans require legal sign-off; penetration tests do not</button>
-    </div>
-    <div class="explanation" id="exp-19"><strong>Correct: B.</strong> A vulnerability scan focuses on identifying weaknesses. A penetration test goes further — it involves identifying AND exploiting vulnerabilities with the goal of gaining a foothold in the network, just as a real adversary would.</div>
-  </div>
-
-  <!-- Q20 -->
-  <div class="question-card" id="card-20">
-    <div class="q-header" onclick="toggleCard(20)">
-      <span class="q-num">20</span>
-      <span class="q-text">Which type of vulnerability scan should be used against web applications to detect SQL injection or XSS?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(20,'A')" id="20-A"><span class="option-letter">A</span> Host-based scan</button>
-      <button class="option" onclick="selectOption(20,'B')" id="20-B"><span class="option-letter">B</span> Wireless scan</button>
-      <button class="option" onclick="selectOption(20,'C')" id="20-C"><span class="option-letter">C</span> Application scan</button>
-      <button class="option" onclick="selectOption(20,'D')" id="20-D"><span class="option-letter">D</span> Database scan</button>
-    </div>
-    <div class="explanation" id="exp-20"><strong>Correct: C.</strong> Application scans crawl web application pages, follow links, and test input fields for vulnerabilities such as SQL injection and cross-site scripting (XSS) — the most critical vulnerability type for web applications.</div>
-  </div>
-
-  <!-- ===== HARD ===== -->
-  <div class="section-header">
-    <div class="section-dot hard"></div>
-    <div class="section-title hard">Hard — Analysis & Evaluation</div>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- Q21 -->
-  <div class="question-card" id="card-21">
-    <div class="q-header" onclick="toggleCard(21)">
-      <span class="q-num">21</span>
-      <span class="q-text">A TCP SYN scan is sometimes called a "stealth scan." Why does it avoid completing the TCP handshake, and what is the practical consequence of this for some firewalls?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(21,'A')" id="21-A"><span class="option-letter">A</span> It completes the handshake but immediately resets — this triggers all IDS systems</button>
-      <button class="option" onclick="selectOption(21,'B')" id="21-B"><span class="option-letter">B</span> It never fully establishes a TCP connection; some firewalls respond with a TCP RESET which could be misread as an active device — and some scanners are configured to ignore or handle this</button>
-      <button class="option" onclick="selectOption(21,'C')" id="21-C"><span class="option-letter">C</span> It uses UDP instead of TCP, bypassing all packet filtering</button>
-      <button class="option" onclick="selectOption(21,'D')" id="21-D"><span class="option-letter">D</span> It encrypts all probe packets so they cannot be logged by firewalls</button>
-    </div>
-    <div class="explanation" id="exp-21"><strong>Correct: B.</strong> A SYN scan sends a SYN packet and considers any response as an active device indicator, without completing the handshake. Some firewalls respond with a TCP RESET, which might indicate a device behind the firewall — or indicate the firewall itself. Most scanners can be configured to skip ping requests or ignore TCP RESTs accordingly.</div>
-  </div>
-
-  <!-- Q22 -->
-  <div class="question-card" id="card-22">
-    <div class="q-header" onclick="toggleCard(22)">
-      <span class="q-num">22</span>
-      <span class="q-text">You run a credentialed network scan of Cisco routers and the results say they are "Apple iPhones" with 85% confidence. What is the MOST likely explanation?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(22,'A')" id="22-A"><span class="option-letter">A</span> The scanner has not been updated recently</button>
-      <button class="option" onclick="selectOption(22,'B')" id="22-B"><span class="option-letter">B</span> OS detection was disabled in the scan settings</button>
-      <button class="option" onclick="selectOption(22,'C')" id="22-C"><span class="option-letter">C</span> The credentials have not provided access to the devices, so fingerprinting relied on external responses only</button>
-      <button class="option" onclick="selectOption(22,'D')" id="22-D"><span class="option-letter">D</span> The scan results are correct and you have mixed up Cisco IOS with Apple iOS</button>
-    </div>
-    <div class="explanation" id="exp-22"><strong>Correct: C.</strong> This is a classic credentialed scan failure. When credentials don't grant device access, the scanner falls back to external fingerprinting which gives only 85% confidence. The most likely cause is that the credentials have not provided access to the devices.</div>
-  </div>
-
-  <!-- Q23 -->
-  <div class="question-card" id="card-23">
-    <div class="q-header" onclick="toggleCard(23)">
-      <span class="q-num">23</span>
-      <span class="q-text">The NCSC compares a penetration test to a financial audit. What is the intended implication of this analogy?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(23,'A')" id="23-A"><span class="option-letter">A</span> Both are extremely expensive and should be avoided</button>
-      <button class="option" onclick="selectOption(23,'B')" id="23-B"><span class="option-letter">B</span> A pen test is an external check that validates whether your ongoing internal processes are sufficient — you should already know what it will find</span></button>
-      <button class="option" onclick="selectOption(23,'C')" id="23-C"><span class="option-letter">C</span> Both processes are primarily about finding fraud within an organisation</button>
-      <button class="option" onclick="selectOption(23,'D')" id="23-D"><span class="option-letter">D</span> Pen testing should only be done annually, just like financial audits</button>
-    </div>
-    <div class="explanation" id="exp-23"><strong>Correct: B.</strong> The analogy means your finance team tracks income/expenses daily (your internal processes); the audit verifies those processes are sufficient. Similarly, in an ideal world you should already know what the pen testers will find — they are verifying your internal vulnerability management is working.</div>
-  </div>
-
-  <!-- Q24 -->
-  <div class="question-card" id="card-24">
-    <div class="q-header" onclick="toggleCard(24)">
-      <span class="q-num">24</span>
-      <span class="q-text">CVSS Base scores are described as "mandatory" but the framework has a key limitation regarding business context. Which statement best captures this limitation?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(24,'A')" id="24-A"><span class="option-letter">A</span> Base scores change weekly so they cannot be relied upon</button>
-      <button class="option" onclick="selectOption(24,'B')" id="24-B"><span class="option-letter">B</span> Base scores reflect inherent vulnerability characteristics but do not account for the business criticality of the affected asset, existing controls, or how the asset is used</button>
-      <button class="option" onclick="selectOption(24,'C')" id="24-C"><span class="option-letter">C</span> Base scores are only calculated by the end user, introducing subjectivity</button>
-      <button class="option" onclick="selectOption(24,'D')" id="24-D"><span class="option-letter">D</span> Base scores always overestimate severity because they assume worst-case exploitation</button>
-    </div>
-    <div class="explanation" id="exp-24"><strong>Correct: B.</strong> Base scores measure inherent, unchanging vulnerability properties. They do not account for business criticality, existing mitigating controls, or specific deployment context — these are captured in the Environmental score which organisations must calculate themselves.</div>
-  </div>
-
-  <!-- Q25 -->
-  <div class="question-card" id="card-25">
-    <div class="q-header" onclick="toggleCard(25)">
-      <span class="q-num">25</span>
-      <span class="q-text">Why does an organisation running a vulnerability scan against its own network sometimes need to skip the discovery phase entirely?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(25,'A')" id="25-A"><span class="option-letter">A</span> Discovery takes too long and wastes licence tokens</button>
-      <button class="option" onclick="selectOption(25,'B')" id="25-B"><span class="option-letter">B</span> If they plan to run a full credentialed scan later, allowing the scanner to collect accurate info directly from devices is more reliable than relying on best-guess external fingerprinting</button>
-      <button class="option" onclick="selectOption(25,'C')" id="25-C"><span class="option-letter">C</span> Discovery only works on external-facing systems</button>
-      <button class="option" onclick="selectOption(25,'D')" id="25-D"><span class="option-letter">D</span> Skipping discovery prevents the scanner from crashing the network</button>
-    </div>
-    <div class="explanation" id="exp-25"><strong>Correct: B.</strong> Running discovery on a network you plan to scan with full credentials later means the scanner picks up inaccurate external fingerprints. It's better to skip discovery and let the credentialed scan collect accurate info from inside the device.</div>
-  </div>
-
-  <!-- Q26 -->
-  <div class="question-card" id="card-26">
-    <div class="q-header" onclick="toggleCard(26)">
-      <span class="q-num">26</span>
-      <span class="q-text">A vulnerability is detected with a CVSS Base score of 8.5, but the organisation's security team decides to treat it as lower priority than a vulnerability with a score of 5.0. Which factor most likely justifies this decision?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(26,'A')" id="26-A"><span class="option-letter">A</span> The team made an error — CVSS score is the only valid prioritisation method</button>
-      <button class="option" onclick="selectOption(26,'B')" id="26-B"><span class="option-letter">B</span> The 8.5 vulnerability affects a non-critical, isolated test system with compensating controls, while the 5.0 vulnerability affects a business-critical payment system with no mitigations</button>
-      <button class="option" onclick="selectOption(26,'C')" id="26-C"><span class="option-letter">C</span> The 5.0 vulnerability is newer and therefore more dangerous</button>
-      <button class="option" onclick="selectOption(26,'D')" id="26-D"><span class="option-letter">D</span> Base scores above 8.0 are automatically patched by the scanner</button>
-    </div>
-    <div class="explanation" id="exp-26"><strong>Correct: B.</strong> Environmental context is crucial. CVSS Base scores don't reflect business criticality or existing controls. A high-score vuln on a non-critical isolated system may be lower priority than a medium-score vuln on a core payment system with no compensating controls.</div>
-  </div>
-
-  <!-- Q27 -->
-  <div class="question-card" id="card-27">
-    <div class="q-header" onclick="toggleCard(27)">
-      <span class="q-num">27</span>
-      <span class="q-text">A Wireless Intrusion Prevention System (WIPS) provides capabilities that go beyond basic vulnerability scanning for wireless threats. Which of the following is a WIPS capability NOT provided by standard vulnerability scanners?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(27,'A')" id="27-A"><span class="option-letter">A</span> Identifying known CVEs in wireless firmware</button>
-      <button class="option" onclick="selectOption(27,'B')" id="27-B"><span class="option-letter">B</span> Physically locating rogue access points by triangulating their position and automatically disabling or isolating them</button>
-      <button class="option" onclick="selectOption(27,'C')" id="27-C"><span class="option-letter">C</span> Checking for missing wireless patches</button>
-      <button class="option" onclick="selectOption(27,'D')" id="27-D"><span class="option-letter">D</span> Reporting on wireless device inventory</button>
-    </div>
-    <div class="explanation" id="exp-27"><strong>Correct: B.</strong> A WIPS can triangulate the exact physical location of rogue access points and automatically disable or isolate parts of the network as a preemptive action — capabilities that go far beyond what a standard vulnerability scanner can do for wireless threats.</div>
-  </div>
-
-  <!-- Q28 -->
-  <div class="question-card" id="card-28">
-    <div class="q-header" onclick="toggleCard(28)">
-      <span class="q-num">28</span>
-      <span class="q-text">PCI DSS compliance is affected by CVSS scores. Which statement about this relationship is accurate?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(28,'A')" id="28-A"><span class="option-letter">A</span> Any unpatched vulnerability, regardless of CVSS score, will fail PCI DSS</button>
-      <button class="option" onclick="selectOption(28,'B')" id="28-B"><span class="option-letter">B</span> Unpatched vulnerabilities with a CVSS score of 4.0 or higher have an adverse effect on PCI DSS compliance</button>
-      <button class="option" onclick="selectOption(28,'C')" id="28-C"><span class="option-letter">C</span> PCI DSS only considers vulnerabilities with a CVSS score of 9.0 or higher</button>
-      <button class="option" onclick="selectOption(28,'D')" id="28-D"><span class="option-letter">D</span> CVSS scores have no formal relationship with PCI DSS</button>
-    </div>
-    <div class="explanation" id="exp-28"><strong>Correct: B.</strong> Unpatched vulnerabilities with a CVSS score of 4.0 or higher (Medium and above) have an adverse effect on Payment Card Industry Data Security Standard (PCI DSS) compliance.</div>
-  </div>
-
-  <!-- ===== SCENARIO ===== -->
-  <div class="section-header">
-    <div class="section-dot scenario"></div>
-    <div class="section-title scenario">Scenario — Applied Thinking</div>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- Q29 -->
-  <div class="question-card" id="card-29">
-    <div class="q-header" onclick="toggleCard(29)">
-      <span class="q-num">29</span>
-      <span class="q-text">SCENARIO: A security manager says "We had our pen test last month, so we're secure for the year." What is the most significant flaw in this reasoning?</span>
-      <span class="q-badge scenario">SCENARIO</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(29,'A')" id="29-A"><span class="option-letter">A</span> Penetration tests should be done quarterly, not annually</button>
-      <button class="option" onclick="selectOption(29,'B')" id="29-B"><span class="option-letter">B</span> A pen test only validates that systems were not vulnerable to known issues on the day of the test — new vulnerabilities can emerge at any time afterwards</button>
-      <button class="option" onclick="selectOption(29,'C')" id="29-C"><span class="option-letter">C</span> The pen test was probably not thorough enough</button>
-      <button class="option" onclick="selectOption(29,'D')" id="29-D"><span class="option-letter">D</span> Pen tests cannot be used to prove security compliance</button>
-    </div>
-    <div class="explanation" id="exp-29"><strong>Correct: B.</strong> The NCSC explicitly states that a pen test can only validate that systems are not vulnerable to known issues on the day of the test. Vulnerabilities could exist for long periods between tests if it's the only validation method.</div>
-  </div>
-
-  <!-- Q30 -->
-  <div class="question-card" id="card-30">
-    <div class="q-header" onclick="toggleCard(30)">
-      <span class="q-num">30</span>
-      <span class="q-text">SCENARIO: A company's network scanner keeps losing track of a laptop used by a remote salesperson because its IP address changes constantly. What is the BEST solution?</span>
-      <span class="q-badge scenario">SCENARIO</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(30,'A')" id="30-A"><span class="option-letter">A</span> Assign the laptop a static IP address</button>
-      <button class="option" onclick="selectOption(30,'B')" id="30-B"><span class="option-letter">B</span> Deploy an agent on the laptop — it maintains its own unique ID regardless of IP, hostname, or MAC address changes</button>
-      <button class="option" onclick="selectOption(30,'C')" id="30-C"><span class="option-letter">C</span> Use DHCP logs to track the changing IP address</button>
-      <button class="option" onclick="selectOption(30,'D')" id="30-D"><span class="option-letter">D</span> Exclude the laptop from vulnerability scanning</button>
-    </div>
-    <div class="explanation" id="exp-30"><strong>Correct: B.</strong> Agent-based scanning solves the dynamic environment problem. Each agent has its own unique ID, so even if the IP, hostname, or MAC address changes, scan results are always attributed to the correct device.</div>
-  </div>
-
-  <!-- Q31 -->
-  <div class="question-card" id="card-31">
-    <div class="q-header" onclick="toggleCard(31)">
-      <span class="q-num">31</span>
-      <span class="q-text">SCENARIO: Your scanner detects a vulnerability in Postgres databases whenever it finds port 5432 open. A developer says "we're safe — we patched it." What additional check should the scanner also perform to confirm remediation?</span>
-      <span class="q-badge scenario">SCENARIO</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(31,'A')" id="31-A"><span class="option-letter">A</span> Run an unauthenticated external scan to verify from the attacker perspective</button>
-      <button class="option" onclick="selectOption(31,'B')" id="31-B"><span class="option-letter">B</span> Check for both the patch AND other known security risks such as default credentials and weak password configurations</button>
-      <button class="option" onclick="selectOption(31,'C')" id="31-C"><span class="option-letter">C</span> Close port 5432 in the firewall</button>
-      <button class="option" onclick="selectOption(31,'D')" id="31-D"><span class="option-letter">D</span> Trust the developer's word and mark the vulnerability as resolved</button>
-    </div>
-    <div class="explanation" id="exp-31"><strong>Correct: B.</strong> For database vulnerabilities, the scanner should run all related tests — not just patch detection. This includes standard CVE checks, default credential checks, and weak password checks. A patch alone may not fully remediate the risk.</div>
-  </div>
-
-  <!-- Q32 -->
-  <div class="question-card" id="card-32">
-    <div class="q-header" onclick="toggleCard(32)">
-      <span class="q-num">32</span>
-      <span class="q-text">SCENARIO: A coffee shop near your office is running a Wi-Fi access point with the exact same SSID as your corporate network. Employees are connecting to it. What type of threat is this, and would a standard network vulnerability scanner detect it?</span>
-      <span class="q-badge scenario">SCENARIO</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(32,'A')" id="32-A"><span class="option-letter">A</span> This is a wired network compromise and would be detected by a network-based scanner</button>
-      <button class="option" onclick="selectOption(32,'B')" id="32-B"><span class="option-letter">B</span> This is a network impersonation (rogue access point) attack. Standard vulnerability scanners are unlikely to detect it — a WIPS is needed</button>
-      <button class="option" onclick="selectOption(32,'C')" id="32-C"><span class="option-letter">C</span> This is an application-layer attack detectable by an application scanner</button>
-      <button class="option" onclick="selectOption(32,'D')" id="32-D"><span class="option-letter">D</span> This is a database scan vulnerability and requires sqlmap to detect</button>
-    </div>
-    <div class="explanation" id="exp-32"><strong>Correct: B.</strong> This is a network impersonation / evil twin attack using a rogue access point with the same SSID. Standard vulnerability scanners cannot detect rogue APs. A Wireless Intrusion Prevention System (WIPS) is required to identify and respond to this threat.</div>
-  </div>
-
-  <!-- Q33 -->
-  <div class="question-card" id="card-33">
-    <div class="q-header" onclick="toggleCard(33)">
-      <span class="q-num">33</span>
-      <span class="q-text">SCENARIO: The remediation team wants to fix vulnerabilities in this order: newest CVEs first, then oldest. A senior analyst objects. What is the analyst's most likely valid concern?</span>
-      <span class="q-badge scenario">SCENARIO</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(33,'A')" id="33-A"><span class="option-letter">A</span> Newer CVEs always have lower CVSS scores so it wastes time</button>
-      <button class="option" onclick="selectOption(33,'B')" id="33-B"><span class="option-letter">B</span> Older vulnerabilities are typically better documented with more resources to help attackers exploit them — "age" should be one factor alongside severity and ease of exploitation, not the primary sort order</button>
-      <button class="option" onclick="selectOption(33,'C')" id="33-C"><span class="option-letter">C</span> Newer CVEs cannot be patched as patches don't exist yet</button>
-      <button class="option" onclick="selectOption(33,'D')" id="33-D"><span class="option-letter">D</span> This ordering is recommended by FIRST so the analyst is wrong</button>
-    </div>
-    <div class="explanation" id="exp-33"><strong>Correct: B.</strong> The module notes that older vulnerabilities tend to have more resources available to help attackers exploit them — they are better documented. Remediation priority should weigh severity, ease of exploitation, age, and internal prioritisation together, not age alone.</div>
-  </div>
-
-  <!-- Q34 -->
-  <div class="question-card" id="card-34">
-    <div class="q-header" onclick="toggleCard(34)">
-      <span class="q-num">34</span>
-      <span class="q-text">SCENARIO: A small startup says "We'll just use Nmap and OpenVAS — they're free and cover enough." A consultant argues a commercial scanner is worth the investment. Which argument BEST supports the consultant's view?</span>
-      <span class="q-badge scenario">SCENARIO</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(34,'A')" id="34-A"><span class="option-letter">A</span> Free tools are illegal in a commercial context</button>
-      <button class="option" onclick="selectOption(34,'B')" id="34-B"><span class="option-letter">B</span> Commercial scanners cover ~500,000 vulnerability tests vs ~50,000 for OpenVAS, have fewer false negatives, richer dashboards for tracking remediation, and provide tech support</button>
-      <button class="option" onclick="selectOption(34,'C')" id="34-C"><span class="option-letter">C</span> Open-source tools cannot scan Windows systems</button>
-      <button class="option" onclick="selectOption(34,'D')" id="34-D"><span class="option-letter">D</span> Free tools require more bandwidth and slow the network</button>
-    </div>
-    <div class="explanation" id="exp-34"><strong>Correct: B.</strong> Commercial scanners cover a far greater range (~500k vs ~50k for OpenVAS), have better accuracy with fewer false negatives, provide rich reporting and dashboards for remediation tracking, and include technical support — all significant advantages for a growing business.</div>
-  </div>
-
-  <!-- Q35 -->
-  <div class="question-card" id="card-35">
-    <div class="q-header" onclick="toggleCard(35)">
-      <span class="q-num">35</span>
-      <span class="q-text">SCENARIO: After a pen test, the report reveals a critical vulnerability. The remediation team wants to immediately apply a configuration change. The business continuity team objects. What does the module say should guide this decision?</span>
-      <span class="q-badge scenario">SCENARIO</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(35,'A')" id="35-A"><span class="option-letter">A</span> Security always takes priority — remediate immediately regardless of business impact</button>
-      <button class="option" onclick="selectOption(35,'B')" id="35-B"><span class="option-letter">B</span> All changes must be carefully considered — the remediation team should consult with other teams to assess risk versus business necessity, and some vulnerabilities may be deemed acceptable risk</button>
-      <button class="option" onclick="selectOption(35,'C')" id="35-C"><span class="option-letter">C</span> The pen test team should make the final decision on remediation</button>
-      <button class="option" onclick="selectOption(35,'D')" id="35-D"><span class="option-letter">D</span> Defer all remediation until the next scheduled maintenance window regardless of severity</button>
-    </div>
-    <div class="explanation" id="exp-35"><strong>Correct: B.</strong> The module states that throughout the remediation process, all changes must be carefully considered — it may also be necessary to facilitate some other business function. The remediation team should consult with other teams to assess risk versus necessity, and some vulnerabilities might be deemed acceptable risk regardless of severity.</div>
-  </div>
-
-  <!-- ===== VIDEO: EASY ===== -->
-  <div class="section-header">
-    <div class="section-dot easy"></div>
-    <div class="section-title easy">Easy — Rapid7 Video Concepts</div>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- Q36 -->
-  <div class="question-card" id="card-36">
-    <div class="q-header" onclick="toggleCard(36)">
-      <span class="q-num">36</span>
-      <span class="q-text">In the Rapid7 house analogy, what does "port scanning" compare to?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(36,'A')" id="36-A"><span class="option-letter">A</span> Sending a ninja to try to break into the house</button>
-      <button class="option" onclick="selectOption(36,'B')" id="36-B"><span class="option-letter">B</span> A home inspector with a clipboard checking door and lock quality</button>
-      <button class="option" onclick="selectOption(36,'C')" id="36-C"><span class="option-letter">C</span> Using binoculars to look at all doors and windows and see which are open or closed</button>
-      <button class="option" onclick="selectOption(36,'D')" id="36-D"><span class="option-letter">D</span> Physically kicking down the front door</button>
-    </div>
-    <div class="explanation" id="exp-36"><strong>Correct: C.</strong> Port scanning = using binoculars to see which doors/windows (ports) are open or closed. Vulnerability scanning = the home inspector assessing weaknesses. Pen testing = the ninja actually trying to break in.</div>
-  </div>
-
-  <!-- Q37 -->
-  <div class="question-card" id="card-37">
-    <div class="q-header" onclick="toggleCard(37)">
-      <span class="q-num">37</span>
-      <span class="q-text">What is the FIRST step of a penetration test according to the Rapid7 video?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(37,'A')" id="37-A"><span class="option-letter">A</span> Network discovery / port scanning</button>
-      <button class="option" onclick="selectOption(37,'B')" id="37-B"><span class="option-letter">B</span> Establishing a clear goal</button>
-      <button class="option" onclick="selectOption(37,'C')" id="37-C"><span class="option-letter">C</span> Writing the final report</button>
-      <button class="option" onclick="selectOption(37,'D')" id="37-D"><span class="option-letter">D</span> Exploitation</button>
-    </div>
-    <div class="explanation" id="exp-37"><strong>Correct: B.</strong> Before anything else, you establish a goal — for example "breach a credit card database." Everything that follows is directed by that goal.</div>
-  </div>
-
-  <!-- Q38 -->
-  <div class="question-card" id="card-38">
-    <div class="q-header" onclick="toggleCard(38)">
-      <span class="q-num">38</span>
-      <span class="q-text">What is "pivoting" in the context of a penetration test?</span>
-      <span class="q-badge easy">EASY</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(38,'A')" id="38-A"><span class="option-letter">A</span> Changing the scope of the test mid-engagement</button>
-      <button class="option" onclick="selectOption(38,'B')" id="38-B"><span class="option-letter">B</span> Moving from one compromised machine to gain access to further machines on the same network</button>
-      <button class="option" onclick="selectOption(38,'C')" id="38-C"><span class="option-letter">C</span> Rotating between different social engineering techniques</button>
-      <button class="option" onclick="selectOption(38,'D')" id="38-D"><span class="option-letter">D</span> Switching from an external to an internal pen test</button>
-    </div>
-    <div class="explanation" id="exp-38"><strong>Correct: B.</strong> Pivoting means using your initial foothold on one machine to jump to the next machine, then the next — moving deeper into the network from a single entry point like a phishing email.</div>
-  </div>
-
-  <!-- ===== VIDEO: MEDIUM ===== -->
-  <div class="section-header">
-    <div class="section-dot medium"></div>
-    <div class="section-title medium">Medium — Rapid7 Video Concepts</div>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- Q39 -->
-  <div class="question-card" id="card-39">
-    <div class="q-header" onclick="toggleCard(39)">
-      <span class="q-num">39</span>
-      <span class="q-text">What is the difference between an internal and an external penetration test?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(39,'A')" id="39-A"><span class="option-letter">A</span> Internal tests are automated; external tests are manual</button>
-      <button class="option" onclick="selectOption(39,'B')" id="39-B"><span class="option-letter">B</span> An external test assumes the attacker comes from the internet; an internal test assumes the attacker is already inside the network (e.g. a malicious insider or someone with physical access)</button>
-      <button class="option" onclick="selectOption(39,'C')" id="39-C"><span class="option-letter">C</span> External tests cover web apps only; internal tests cover the full network</button>
-      <button class="option" onclick="selectOption(39,'D')" id="39-D"><span class="option-letter">D</span> An internal test is done by staff; an external test is always outsourced</button>
-    </div>
-    <div class="explanation" id="exp-39"><strong>Correct: B.</strong> External = attacker attacking from outside over the internet. Internal = attacker already inside — could be a malicious insider, consultant with physical access, or someone who plugged a device into the network.</div>
-  </div>
-
-  <!-- Q40 -->
-  <div class="question-card" id="card-40">
-    <div class="q-header" onclick="toggleCard(40)">
-      <span class="q-num">40</span>
-      <span class="q-text">Which of the following is listed as a valid reason to conduct a penetration test?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(40,'A')" id="40-A"><span class="option-letter">A</span> To replace the need for a firewall</button>
-      <button class="option" onclick="selectOption(40,'B')" id="40-B"><span class="option-letter">B</span> To establish a security baseline for a new CISO joining an organisation</button>
-      <button class="option" onclick="selectOption(40,'C')" id="40-C"><span class="option-letter">C</span> To train junior developers in coding best practices</button>
-      <button class="option" onclick="selectOption(40,'D')" id="40-D"><span class="option-letter">D</span> To automatically patch discovered vulnerabilities</button>
-    </div>
-    <div class="explanation" id="exp-40"><strong>Correct: B.</strong> The video lists several reasons: preventing data breaches, testing security controls, securing new systems before production, establishing a security baseline (e.g. for a new CISO), and meeting compliance requirements like PCI.</div>
-  </div>
-
-  <!-- Q41 -->
-  <div class="question-card" id="card-41">
-    <div class="q-header" onclick="toggleCard(41)">
-      <span class="q-num">41</span>
-      <span class="q-text">What should you collect BEFORE writing the final pen test report, and why?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(41,'A')" id="41-A"><span class="option-letter">A</span> A list of all CVEs found, to include their CVSS scores in the report</button>
-      <button class="option" onclick="selectOption(41,'B')" id="41-B"><span class="option-letter">B</span> Evidence — screenshots, downloaded files, harvested passwords — to prove to the client that you actually gained access</button>
-      <button class="option" onclick="selectOption(41,'C')" id="41-C"><span class="option-letter">C</span> Permission from the organisation's legal team to publish findings</button>
-      <button class="option" onclick="selectOption(41,'D')" id="41-D"><span class="option-letter">D</span> A full network diagram from the discovery phase</button>
-    </div>
-    <div class="explanation" id="exp-41"><strong>Correct: B.</strong> Before writing the report, you must collect evidence — screenshots, downloaded files, captured password hashes — to prove to the client that you genuinely breached their systems, not just that you found potential weaknesses.</div>
-  </div>
-
-  <!-- Q42 -->
-  <div class="question-card" id="card-42">
-    <div class="q-header" onclick="toggleCard(42)">
-      <span class="q-num">42</span>
-      <span class="q-text">When is it generally more cost-effective to outsource a pen test rather than build an in-house capability?</span>
-      <span class="q-badge medium">MEDIUM</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(42,'A')" id="42-A"><span class="option-letter">A</span> When the organisation has more than 500 employees</button>
-      <button class="option" onclick="selectOption(42,'B')" id="42-B"><span class="option-letter">B</span> When the organisation only runs one pen test per year — training staff and buying tools is not justified for a single annual test</button>
-      <button class="option" onclick="selectOption(42,'C')" id="42-C"><span class="option-letter">C</span> When the organisation is subject to PCI compliance</button>
-      <button class="option" onclick="selectOption(42,'D')" id="42-D"><span class="option-letter">D</span> When the pen test needs to cover wireless networks</button>
-    </div>
-    <div class="explanation" id="exp-42"><strong>Correct: B.</strong> If you only run one pen test a year, it's usually more cost-effective to outsource — the investment in training staff and purchasing tools isn't justified. In-house capability makes sense if you want more frequent testing (e.g. monthly).</div>
-  </div>
-
-  <!-- ===== VIDEO: HARD ===== -->
-  <div class="section-header">
-    <div class="section-dot hard"></div>
-    <div class="section-title hard">Hard — Rapid7 Video Concepts</div>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- Q43 -->
-  <div class="question-card" id="card-43">
-    <div class="q-header" onclick="toggleCard(43)">
-      <span class="q-num">43</span>
-      <span class="q-text">Why might an organisation choose NOT to tell its own security team that a pen test is taking place?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(43,'A')" id="43-A"><span class="option-letter">A</span> To reduce the cost of the engagement</button>
-      <button class="option" onclick="selectOption(43,'B')" id="43-B"><span class="option-letter">B</span> To test whether the security team's detection and response capabilities actually pick up a real attack simulation — their reaction is part of what is being assessed</button>
-      <button class="option" onclick="selectOption(43,'C')" id="43-C"><span class="option-letter">C</span> Because informing the team is a legal requirement that must be avoided</button>
-      <button class="option" onclick="selectOption(43,'D')" id="43-D"><span class="option-letter">D</span> To prevent them from blocking the pen test tools at the firewall</button>
-    </div>
-    <div class="explanation" id="exp-43"><strong>Correct: B.</strong> One goal of pen testing is to test whether your security controls and team actually detect an attack. If the security team knows a test is happening, they will be on high alert — defeating the purpose of testing real detection and response capability.</div>
-  </div>
-
-  <!-- Q44 -->
-  <div class="question-card" id="card-44">
-    <div class="q-header" onclick="toggleCard(44)">
-      <span class="q-num">44</span>
-      <span class="q-text">When testing production environments, what is the recommended approach for exploit selection and why?</span>
-      <span class="q-badge hard">HARD</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(44,'A')" id="44-A"><span class="option-letter">A</span> Use the most aggressive exploits to find all vulnerabilities quickly</button>
-      <button class="option" onclick="selectOption(44,'B')" id="44-B"><span class="option-letter">B</span> Only use exploits ranked as "excellent" or "great" reliability (e.g. via Metasploit rankings) to avoid causing unintended damage or downtime to live systems</button>
-      <button class="option" onclick="selectOption(44,'C')" id="44-C"><span class="option-letter">C</span> Avoid all exploitation — only run passive scans in production</button>
-      <button class="option" onclick="selectOption(44,'D')" id="44-D"><span class="option-letter">D</span> Use only open-source exploits so results can be independently verified</button>
-    </div>
-    <div class="explanation" id="exp-44"><strong>Correct: B.</strong> Production environments must keep running. Tools like Metasploit rank exploits by reliability. Only "excellent" or "great" rated exploits should be used in production to ensure the test doesn't accidentally cause outages or data loss.</div>
-  </div>
-
-  <!-- ===== VIDEO: SCENARIO ===== -->
-  <div class="section-header">
-    <div class="section-dot scenario"></div>
-    <div class="section-title scenario">Scenario — Rapid7 Video Applied</div>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- Q45 -->
-  <div class="question-card" id="card-45">
-    <div class="q-header" onclick="toggleCard(45)">
-      <span class="q-num">45</span>
-      <span class="q-text">SCENARIO: A pen tester gains access to a single laptop via a phishing email. The target — a credit card database — is on a different server deep inside the network. What technique allows them to reach it from that single laptop?</span>
-      <span class="q-badge scenario">SCENARIO</span>
-    </div>
-    <div class="q-options">
-      <button class="option" onclick="selectOption(45,'A')" id="45-A"><span class="option-letter">A</span> Running a new vulnerability scan from the internet</button>
-      <button class="option" onclick="selectOption(45,'B')" id="45-B"><span class="option-letter">B</span> Pivoting — using the compromised laptop as a launchpad to move from machine to machine through the internal network until reaching the target</button>
-      <button class="option" onclick="selectOption(45,'C')" id="45-C"><span class="option-letter">C</span> Requesting the database credentials from the IT help desk via social engineering</button>
-      <button class="option" onclick="selectOption(45,'D')" id="45-D"><span class="option-letter">D</span> Escalating the CVSS score of the phishing vulnerability to trigger automatic patching</button>
-    </div>
-    <div class="explanation" id="exp-45"><strong>Correct: B.</strong> Pivoting is the technique of using an initial foothold (the phished laptop) to jump from machine to machine through the internal network — eventually reaching high-value targets like a database that would be inaccessible directly from the internet.</div>
-  </div>
-
-  <div id="result-panel">
-    <h2>Quiz Complete 🎯</h2>
-    <div class="grade" id="final-grade">--</div>
-    <p id="result-msg">Review any incorrect answers above — the explanations are shown below each question.</p>
+    <div class="notes-review" id="notes-review"></div>
   </div>
 
 </div>
 
 <script>
-  const answers = {
-    1:'B',2:'C',3:'C',4:'B',5:'B',6:'C',7:'C',8:'B',9:'C',10:'B',
-    11:'B',12:'C',13:'B',14:'B',15:'C',16:'B',17:'B',18:'B',19:'B',20:'C',
-    21:'B',22:'C',23:'B',24:'B',25:'B',26:'B',27:'B',28:'B',
-    29:'B',30:'B',31:'B',32:'B',33:'B',34:'B',35:'B',
-    36:'C',37:'B',38:'B',39:'B',40:'B',41:'B',42:'B',
-    43:'B',44:'B',45:'B'
-  };
+const questions = [
+  // ---- EASY (1-13) ----
+  {
+    q: "What is the primary purpose of vulnerability scanning?",
+    opts: ["To exploit vulnerabilities in a target system to gain access","To build an inventory of network devices and identify vulnerabilities that may affect each one","To perform social engineering attacks on employees","To replace firewall and IPS systems entirely"],
+    ans: 1, diff: "easy",
+    exp: "Vulnerability scanning builds an inventory of all devices on a network and creates a list of vulnerabilities that may affect each device. It is about identification and remediation, not exploitation."
+  },
+  {
+    q: "What does CVE stand for?",
+    opts: ["Common Vulnerability Exposure","Cyber Vulnerability Entry","Common Vulnerabilities and Exposures","Critical Vulnerability Evaluation"],
+    ans: 2, diff: "easy",
+    exp: "CVE stands for Common Vulnerabilities and Exposures, a publicly known list of vulnerabilities documented along with the software versions they affect."
+  },
+  {
+    q: "What score range does CVSS use to rate vulnerability severity?",
+    opts: ["1 to 5","0 to 100","0 to 10","1 to 10"],
+    ans: 2, diff: "easy",
+    exp: "CVSS scores range from 0 to 10, where 0 is least severe and 10 is most severe."
+  },
+  {
+    q: "An authenticated (credentialed) scan differs from an unauthenticated scan in what key way?",
+    opts: ["It is much faster and produces fewer results","It gains information from inside the device using admin credentials for an accurate assessment","It only scans external-facing ports","It simulates an attacker's perspective from outside the network"],
+    ans: 1, diff: "easy",
+    exp: "An authenticated scan uses administrative credentials to access the device from within, providing a far more accurate vulnerability assessment used to drive remediation."
+  },
+  {
+    q: "Which organisation currently owns and manages the CVSS framework?",
+    opts: ["NIST","FIRST","NIAC","DHS / CISA"],
+    ans: 1, diff: "easy",
+    exp: "FIRST (Forum of Incident Response and Security Teams) owns and manages CVSS. NIAC originally introduced it in 2005."
+  },
+  {
+    q: "Vulnerability scanners are NOT effective at detecting which type of vulnerability?",
+    opts: ["Known CVEs","Default credential usage","0-day vulnerabilities","Missing patches"],
+    ans: 2, diff: "easy",
+    exp: "Vulnerability scanners rely on databases of known vulnerabilities. They are not effective at detecting 0-day vulnerabilities because there are no known signatures for them yet."
+  },
+  {
+    q: "A CVSS score of 9.5 falls into which severity category?",
+    opts: ["High","Medium","Critical","Severe"],
+    ans: 2, diff: "easy",
+    exp: "Scores from 9.0 to 10.0 are rated Critical. High is 7.0 to 8.9, Medium is 4.0 to 6.9, and Low is 0.1 to 3.9."
+  },
+  {
+    q: "What is the NCSC's definition of penetration testing?",
+    opts: ["Automated scanning of a network for known CVEs","A method for gaining assurance in the security of an IT system by attempting to breach it using the same tools and techniques as an adversary","Physical security testing of server rooms and data centres","The process of installing security patches across an organisation"],
+    ans: 1, diff: "easy",
+    exp: "The NCSC defines pen testing as a method for gaining assurance in an IT system's security by attempting to breach it using the same tools and techniques as a real adversary."
+  },
+  {
+    q: "Which of the following is a free and open-source vulnerability scanner?",
+    opts: ["InsightVM","Nessus","OpenVAS","Qualys"],
+    ans: 2, diff: "easy",
+    exp: "OpenVAS, Nmap, and Nikto are free and open-source tools. InsightVM, Nessus, and Qualys are paid commercial scanners."
+  },
+  {
+    q: "What is fingerprinting in the context of vulnerability scanning?",
+    opts: ["Collecting biometric data from device users","Identifying operating systems and software versions by comparing responses with known indicators","Logging all network traffic to a central database","Encrypting scan results before sending to the console"],
+    ans: 1, diff: "easy",
+    exp: "Fingerprinting identifies the operating system and software versions on a device by comparing known indicators of hardware and software responses."
+  },
+  {
+    q: "In the Rapid7 house analogy, what does port scanning compare to?",
+    opts: ["Sending a ninja to try to break into the house","A home inspector with a clipboard checking door and lock quality","Using binoculars to look at all doors and windows and see which are open or closed","Physically kicking down the front door"],
+    ans: 2, diff: "easy",
+    exp: "Port scanning = using binoculars to see which doors/windows (ports) are open or closed. Vulnerability scanning = the home inspector assessing weaknesses. Pen testing = the ninja actually trying to break in."
+  },
+  {
+    q: "What is the FIRST step of a penetration test according to the Rapid7 video?",
+    opts: ["Network discovery and port scanning","Establishing a clear goal","Writing the final report","Exploitation"],
+    ans: 1, diff: "easy",
+    exp: "Before anything else, you establish a goal, for example 'breach a credit card database.' Everything that follows is directed by that goal."
+  },
+  {
+    q: "What is pivoting in the context of a penetration test?",
+    opts: ["Changing the scope of the test mid-engagement","Moving from one compromised machine to gain access to further machines on the same network","Rotating between different social engineering techniques","Switching from an external to an internal pen test"],
+    ans: 1, diff: "easy",
+    exp: "Pivoting means using your initial foothold on one machine to jump to the next machine, then the next, moving deeper into the network from a single entry point like a phishing email."
+  },
 
-  const selected = {};
-  const revealed = {};
-  const total = 45;
+  // ---- MEDIUM (14-26) ----
+  {
+    q: "Why does an unauthenticated scan tend to produce a high number of false positives?",
+    opts: ["It runs too many tests simultaneously, causing system crashes","It cannot verify exact software versions without access, so it flags all potential issues for a detected service","It deliberately over-reports to ensure nothing is missed","It is not integrated with the CVE database"],
+    ans: 1, diff: "medium",
+    exp: "Without credentials, the scanner cannot determine the exact version of software running. For example, detecting OpenSSH remotely without device access means the scanner may flag ALL OpenSSH vulnerabilities."
+  },
+  {
+    q: "Which CVSS metric group can change over time as patches or workarounds become available?",
+    opts: ["Base metrics","Environmental metrics","Temporal metrics","Exploitability metrics"],
+    ans: 2, diff: "medium",
+    exp: "Temporal metrics represent properties of a vulnerability that can change over time, such as the release of an official patch or changes in exploit code maturity."
+  },
+  {
+    q: "How does the NCSC distinguish penetration testing from a routine vulnerability assessment process?",
+    opts: ["Penetration testing should replace the internal vulnerability assessment process","Pen testing is a method for gaining assurance in your vulnerability management processes, not a primary method for finding vulnerabilities","They are the same thing and the terms are interchangeable","Penetration testing is only used for web applications"],
+    ans: 1, diff: "medium",
+    exp: "The NCSC states pen testing should be viewed as a method for gaining assurance in your organisation's vulnerability assessment and management processes, not as the primary way to find vulnerabilities."
+  },
+  {
+    q: "What is the key advantage of agent-based (host-based) scanning over network-based scanning?",
+    opts: ["It can scan printers and network devices which agents cannot run on","It scans devices that are intermittently connected or outside the company network, like remote laptops","It requires no administrative permissions on the host device","It is always faster than a network-based scan"],
+    ans: 1, diff: "medium",
+    exp: "Agent-based scanning is especially useful for devices only intermittently connected to the company network, such as employee laptops at home. Network scanners can only scan devices available on the network at the time."
+  },
+  {
+    q: "Which CVSS metric group is calculated by the end user (not the vendor) and is entirely optional?",
+    opts: ["Base metrics","Temporal metrics","Environmental metrics","Impact metrics"],
+    ans: 2, diff: "medium",
+    exp: "The Environmental group score is calculated by the end user (not the vendor) and is optional. It refines the Base score to reflect the organisation's own environment and business context."
+  },
+  {
+    q: "Why is it NOT advisable to allow a network-based vulnerability scanner full access to all ports across a firewall?",
+    opts: ["It would make the scan run too slowly","It compromises network segmentation and security. The solution is to deploy secondary scanners in different network segments","Scanners are not capable of handling that many connections","Firewalls always block scanner traffic completely"],
+    ans: 1, diff: "medium",
+    exp: "Allowing full access through a firewall removes important security segmentation. The recommended solution is to deploy secondary scanners on different sides of the firewall, reporting back to the primary console over a single encrypted TCP connection."
+  },
+  {
+    q: "What is a major limitation of relying solely on publicly available CVSS scores when prioritising vulnerability remediation?",
+    opts: ["Public CVSS scores are always inaccurate","They only reflect Base scores and neglect real-world exploits, available mitigations, and the business context of the affected asset","CVSS scores are not publicly available","The scores change too frequently to rely on"],
+    ans: 1, diff: "medium",
+    exp: "Public databases like NIST NVD only show Base scores. Sole reliance on these neglects real-world exploit availability, existing mitigations, and the specific importance of the affected asset to the organisation."
+  },
+  {
+    q: "What are the three ways a vulnerability scanner fingerprints devices on the network?",
+    opts: ["Ping, SYN scan, UDP scan","MAC address, port fingerprinting, banner grabbing","Logs, enumeration, agent polling","SNMP polling, WMI queries, SSH commands"],
+    ans: 1, diff: "medium",
+    exp: "The three fingerprinting techniques are MAC address analysis, port fingerprinting (inferring OS from open ports), and banner grabbing (services responding with version info to Nmap probes)."
+  },
+  {
+    q: "In what key way does a penetration test differ from a vulnerability scan?",
+    opts: ["A vulnerability scan is manual; a penetration test is automated","A penetration test identifies AND exploits vulnerabilities; a scan only identifies weaknesses","Penetration tests only target web applications","Vulnerability scans require legal sign-off; penetration tests do not"],
+    ans: 1, diff: "medium",
+    exp: "A vulnerability scan focuses on identifying weaknesses. A penetration test goes further by identifying AND exploiting vulnerabilities with the goal of gaining a foothold in the network, just as a real adversary would."
+  },
+  {
+    q: "Which type of vulnerability scan should be used against web applications to detect SQL injection or XSS?",
+    opts: ["Host-based scan","Wireless scan","Application scan","Database scan"],
+    ans: 2, diff: "medium",
+    exp: "Application scans crawl web application pages, follow links, and test input fields for vulnerabilities such as SQL injection and cross-site scripting (XSS), the most critical vulnerability type for web applications."
+  },
+  {
+    q: "What is the difference between an internal and an external penetration test?",
+    opts: ["Internal tests are automated; external tests are manual","An external test assumes the attacker comes from the internet; an internal test assumes the attacker is already inside the network (e.g. a malicious insider or someone with physical access)","External tests cover web apps only; internal tests cover the full network","An internal test is done by staff; an external test is always outsourced"],
+    ans: 1, diff: "medium",
+    exp: "External means the attacker attacks from outside over the internet. Internal means the attacker is already inside, which could be a malicious insider, consultant with physical access, or someone who plugged a device into the network."
+  },
+  {
+    q: "Which of the following is listed as a valid reason to conduct a penetration test?",
+    opts: ["To replace the need for a firewall","To establish a security baseline for a new CISO joining an organisation","To train junior developers in coding best practices","To automatically patch discovered vulnerabilities"],
+    ans: 1, diff: "medium",
+    exp: "Valid reasons include preventing data breaches, testing security controls, securing new systems before production, establishing a security baseline (e.g. for a new CISO), and meeting compliance requirements like PCI."
+  },
+  {
+    q: "What should you collect BEFORE writing the final pen test report, and why?",
+    opts: ["A list of all CVEs found, to include their CVSS scores in the report","Evidence such as screenshots, downloaded files, and harvested passwords to prove to the client that you actually gained access","Permission from the organisation's legal team to publish findings","A full network diagram from the discovery phase"],
+    ans: 1, diff: "medium",
+    exp: "Before writing the report, you must collect evidence including screenshots, downloaded files, and captured password hashes to prove to the client that you genuinely breached their systems."
+  },
+  {
+    q: "When is it generally more cost-effective to outsource a pen test rather than build an in-house capability?",
+    opts: ["When the organisation has more than 500 employees","When the organisation only runs one pen test per year, making training staff and buying tools unjustifiable","When the organisation is subject to PCI compliance","When the pen test needs to cover wireless networks"],
+    ans: 1, diff: "medium",
+    exp: "If you only run one pen test a year, outsourcing is usually more cost-effective. In-house capability makes more sense if you want more frequent testing such as monthly."
+  },
 
-  function selectOption(qNum, letter) {
-    if (revealed[qNum]) return;
-    selected[qNum] = letter;
-    const opts = ['A','B','C','D'];
-    opts.forEach(l => {
-      const el = document.getElementById(`${qNum}-${l}`);
-      el.classList.toggle('selected', l === letter);
-    });
-    updateProgress();
+  // ---- HARD (27-36) ----
+  {
+    q: "A TCP SYN scan is sometimes called a stealth scan. Why does it avoid completing the TCP handshake, and what is the practical consequence for some firewalls?",
+    opts: ["It completes the handshake but immediately resets, triggering all IDS systems","It never fully establishes a TCP connection; some firewalls respond with a TCP RESET which could be misread as an active device, and some scanners are configured to ignore or handle this","It uses UDP instead of TCP, bypassing all packet filtering","It encrypts all probe packets so they cannot be logged by firewalls"],
+    ans: 1, diff: "hard",
+    exp: "A SYN scan sends a SYN packet and considers any response as an active device indicator, without completing the handshake. Some firewalls respond with a TCP RESET, which might indicate a device behind the firewall or the firewall itself. Most scanners can be configured to skip ping requests or ignore TCP RESETs accordingly."
+  },
+  {
+    q: "You run a credentialed network scan of Cisco routers and the results say they are Apple iPhones with 85% confidence. What is the MOST likely explanation?",
+    opts: ["The scanner has not been updated recently","OS detection was disabled in the scan settings","The credentials have not provided access to the devices, so fingerprinting relied on external responses only","The scan results are correct and you have mixed up Cisco IOS with Apple iOS"],
+    ans: 2, diff: "hard",
+    exp: "This is a classic credentialed scan failure. When credentials do not grant device access, the scanner falls back to external fingerprinting which gives only 85% confidence. The most likely cause is that credentials failed to authenticate against the devices."
+  },
+  {
+    q: "The NCSC compares a penetration test to a financial audit. What is the intended implication of this analogy?",
+    opts: ["Both are extremely expensive and should be avoided","A pen test is an external check that validates whether your ongoing internal processes are sufficient. You should already know what it will find","Both processes are primarily about finding fraud within an organisation","Pen testing should only be done annually, just like financial audits"],
+    ans: 1, diff: "hard",
+    exp: "The analogy means your finance team tracks income and expenses daily (your internal processes); the audit verifies those processes are sufficient. Similarly, in an ideal world you should already know what the pen testers will find because they are verifying your internal vulnerability management is working."
+  },
+  {
+    q: "CVSS Base scores are described as mandatory but the framework has a key limitation regarding business context. Which statement best captures this limitation?",
+    opts: ["Base scores change weekly so they cannot be relied upon","Base scores reflect inherent vulnerability characteristics but do not account for the business criticality of the affected asset, existing controls, or how the asset is used","Base scores are only calculated by the end user, introducing subjectivity","Base scores always overestimate severity because they assume worst-case exploitation"],
+    ans: 1, diff: "hard",
+    exp: "Base scores measure inherent, unchanging vulnerability properties. They do not account for business criticality, existing mitigating controls, or specific deployment context. These factors are captured in the Environmental score which organisations must calculate themselves."
+  },
+  {
+    q: "Why does an organisation running a vulnerability scan against its own network sometimes need to skip the discovery phase entirely?",
+    opts: ["Discovery takes too long and wastes licence tokens","If they plan to run a full credentialed scan later, allowing the scanner to collect accurate info directly from devices is more reliable than relying on best-guess external fingerprinting","Discovery only works on external-facing systems","Skipping discovery prevents the scanner from crashing the network"],
+    ans: 1, diff: "hard",
+    exp: "Running discovery on a network you plan to scan with full credentials later means the scanner picks up inaccurate external fingerprints. It is better to skip discovery and let the credentialed scan collect accurate info from inside the device."
+  },
+  {
+    q: "A vulnerability is detected with a CVSS Base score of 8.5, but the security team decides to treat it as lower priority than a vulnerability with a score of 5.0. Which factor most likely justifies this decision?",
+    opts: ["The team made an error, as CVSS score is the only valid prioritisation method","The 8.5 vulnerability affects a non-critical isolated test system with compensating controls, while the 5.0 vulnerability affects a business-critical payment system with no mitigations","The 5.0 vulnerability is newer and therefore more dangerous","Base scores above 8.0 are automatically patched by the scanner"],
+    ans: 1, diff: "hard",
+    exp: "Environmental context is crucial. CVSS Base scores do not reflect business criticality or existing controls. A high-score vulnerability on a non-critical isolated system may be lower priority than a medium-score vulnerability on a core payment system with no compensating controls."
+  },
+  {
+    q: "A Wireless Intrusion Prevention System (WIPS) provides capabilities that go beyond basic vulnerability scanning for wireless threats. Which of the following is a WIPS capability NOT provided by standard vulnerability scanners?",
+    opts: ["Identifying known CVEs in wireless firmware","Physically locating rogue access points by triangulating their position and automatically disabling or isolating them","Checking for missing wireless patches","Reporting on wireless device inventory"],
+    ans: 1, diff: "hard",
+    exp: "A WIPS can triangulate the exact physical location of rogue access points and automatically disable or isolate parts of the network as a preemptive action, capabilities that go far beyond what a standard vulnerability scanner can do for wireless threats."
+  },
+  {
+    q: "PCI DSS compliance is affected by CVSS scores. Which statement about this relationship is accurate?",
+    opts: ["Any unpatched vulnerability, regardless of CVSS score, will fail PCI DSS","Unpatched vulnerabilities with a CVSS score of 4.0 or higher have an adverse effect on PCI DSS compliance","PCI DSS only considers vulnerabilities with a CVSS score of 9.0 or higher","CVSS scores have no formal relationship with PCI DSS"],
+    ans: 1, diff: "hard",
+    exp: "Unpatched vulnerabilities with a CVSS score of 4.0 or higher (Medium and above) have an adverse effect on Payment Card Industry Data Security Standard (PCI DSS) compliance."
+  },
+  {
+    q: "Why might an organisation choose NOT to tell its own security team that a pen test is taking place?",
+    opts: ["To reduce the cost of the engagement","To test whether the security team's detection and response capabilities actually pick up a real attack simulation, as their reaction is part of what is being assessed","Because informing the team is a legal requirement that must be avoided","To prevent them from blocking the pen test tools at the firewall"],
+    ans: 1, diff: "hard",
+    exp: "One goal of pen testing is to test whether your security controls and team actually detect an attack. If the security team knows a test is happening they will be on high alert, defeating the purpose of testing real detection and response capability."
+  },
+  {
+    q: "When testing production environments, what is the recommended approach for exploit selection and why?",
+    opts: ["Use the most aggressive exploits to find all vulnerabilities quickly","Only use exploits ranked as excellent or great reliability (e.g. via Metasploit rankings) to avoid causing unintended damage or downtime to live systems","Avoid all exploitation and only run passive scans in production","Use only open-source exploits so results can be independently verified"],
+    ans: 1, diff: "hard",
+    exp: "Production environments must keep running. Tools like Metasploit rank exploits by reliability. Only excellent or great rated exploits should be used in production to ensure the test does not accidentally cause outages or data loss."
+  },
+
+  // ---- SCENARIO (37-45) ----
+  {
+    q: "SCENARIO: A security manager says 'We had our pen test last month, so we are secure for the year.' What is the most significant flaw in this reasoning?",
+    opts: ["Penetration tests should be done quarterly, not annually","A pen test only validates that systems were not vulnerable to known issues on the day of the test. New vulnerabilities can emerge at any time afterwards","The pen test was probably not thorough enough","Pen tests cannot be used to prove security compliance"],
+    ans: 1, diff: "scenario",
+    exp: "The NCSC explicitly states that a pen test can only validate that systems are not vulnerable to known issues on the day of the test. Vulnerabilities could exist for long periods between tests if it is the only validation method."
+  },
+  {
+    q: "SCENARIO: A company's network scanner keeps losing track of a laptop used by a remote salesperson because its IP address changes constantly. What is the BEST solution?",
+    opts: ["Assign the laptop a static IP address","Deploy an agent on the laptop. It maintains its own unique ID regardless of IP, hostname, or MAC address changes","Use DHCP logs to track the changing IP address","Exclude the laptop from vulnerability scanning"],
+    ans: 1, diff: "scenario",
+    exp: "Agent-based scanning solves the dynamic environment problem. Each agent has its own unique ID, so even if the IP, hostname, or MAC address changes, scan results are always attributed to the correct device."
+  },
+  {
+    q: "SCENARIO: Your scanner detects a vulnerability in Postgres databases whenever it finds port 5432 open. A developer says 'we are safe, we patched it.' What additional check should the scanner also perform to confirm remediation?",
+    opts: ["Run an unauthenticated external scan to verify from the attacker perspective","Check for both the patch AND other known security risks such as default credentials and weak password configurations","Close port 5432 in the firewall","Trust the developer's word and mark the vulnerability as resolved"],
+    ans: 1, diff: "scenario",
+    exp: "For database vulnerabilities, the scanner should run all related tests, not just patch detection. This includes standard CVE checks, default credential checks, and weak password checks. A patch alone may not fully remediate the risk."
+  },
+  {
+    q: "SCENARIO: A coffee shop near your office is running a Wi-Fi access point with the exact same SSID as your corporate network. Employees are connecting to it. What type of threat is this, and would a standard network vulnerability scanner detect it?",
+    opts: ["This is a wired network compromise and would be detected by a network-based scanner","This is a network impersonation (rogue access point) attack. Standard vulnerability scanners are unlikely to detect it. A WIPS is needed","This is an application-layer attack detectable by an application scanner","This is a database scan vulnerability and requires sqlmap to detect"],
+    ans: 1, diff: "scenario",
+    exp: "This is a network impersonation / evil twin attack using a rogue access point with the same SSID. Standard vulnerability scanners cannot detect rogue APs. A Wireless Intrusion Prevention System (WIPS) is required to identify and respond to this threat."
+  },
+  {
+    q: "SCENARIO: The remediation team wants to fix vulnerabilities newest CVEs first, then oldest. A senior analyst objects. What is the analyst's most likely valid concern?",
+    opts: ["Newer CVEs always have lower CVSS scores so it wastes time","Older vulnerabilities are typically better documented with more resources to help attackers exploit them. Age should be one factor alongside severity and ease of exploitation, not the primary sort order","Newer CVEs cannot be patched as patches do not exist yet","This ordering is recommended by FIRST so the analyst is wrong"],
+    ans: 1, diff: "scenario",
+    exp: "Older vulnerabilities tend to have more resources available to help attackers exploit them, they are better documented. Remediation priority should weigh severity, ease of exploitation, age, and internal prioritisation together, not age alone."
+  },
+  {
+    q: "SCENARIO: A small startup says 'We will just use Nmap and OpenVAS, they are free and cover enough.' A consultant argues a commercial scanner is worth the investment. Which argument BEST supports the consultant's view?",
+    opts: ["Free tools are illegal in a commercial context","Commercial scanners cover around 500,000 vulnerability tests vs around 50,000 for OpenVAS, have fewer false negatives, richer dashboards for tracking remediation, and provide tech support","Open-source tools cannot scan Windows systems","Free tools require more bandwidth and slow the network"],
+    ans: 1, diff: "scenario",
+    exp: "Commercial scanners cover a far greater range (around 500k vs 50k for OpenVAS), have better accuracy with fewer false negatives, provide rich reporting and dashboards for remediation tracking, and include technical support."
+  },
+  {
+    q: "SCENARIO: After a pen test, the report reveals a critical vulnerability. The remediation team wants to immediately apply a configuration change. The business continuity team objects. What should guide this decision?",
+    opts: ["Security always takes priority. Remediate immediately regardless of business impact","All changes must be carefully considered. The remediation team should consult with other teams to assess risk versus business necessity, and some vulnerabilities may be deemed acceptable risk","The pen test team should make the final decision on remediation","Defer all remediation until the next scheduled maintenance window regardless of severity"],
+    ans: 1, diff: "scenario",
+    exp: "The module states that throughout the remediation process all changes must be carefully considered. It may also be necessary to facilitate some other business function. The remediation team should consult with other teams to assess risk versus necessity, and some vulnerabilities might be deemed acceptable risk regardless of severity."
+  },
+  {
+    q: "SCENARIO: A pen tester gains access to a single laptop via a phishing email. The target, a credit card database, is on a different server deep inside the network. What technique allows them to reach it from that single laptop?",
+    opts: ["Running a new vulnerability scan from the internet","Pivoting, using the compromised laptop as a launchpad to move from machine to machine through the internal network until reaching the target","Requesting the database credentials from the IT help desk via social engineering","Escalating the CVSS score of the phishing vulnerability to trigger automatic patching"],
+    ans: 1, diff: "scenario",
+    exp: "Pivoting is the technique of using an initial foothold (the phished laptop) to jump from machine to machine through the internal network, eventually reaching high-value targets like a database that would be inaccessible directly from the internet."
+  },
+  {
+    q: "SCENARIO: A CISO has just joined a company and has no idea where the biggest security risks are. They have no previous pen test reports or vulnerability data. What would be the most appropriate first step according to the Rapid7 video?",
+    opts: ["Immediately patch all systems with a CVSS score above 4.0","Commission a penetration test to establish a security baseline and understand where the biggest vulnerabilities and weaknesses are","Buy the most expensive commercial vulnerability scanner available","Restrict all external network access until the risks are understood"],
+    ans: 1, diff: "scenario",
+    exp: "The Rapid7 video specifically mentions that pen tests are valuable for establishing a security baseline when you are new to an organisation. A pen test will reveal which systems are insecure and which attack methods work, giving the CISO actionable insight on where to focus security investment."
+  }
+];
+
+let current = 0;
+let score = 0;
+let selected = null;
+let answered = false;
+const notes = {};
+const results = [];
+
+const diffCount = { easy: 13, medium: 13, hard: 10, scenario: 9 };
+const diffScore = { easy: 0, medium: 0, hard: 0, scenario: 0 };
+
+// Shuffled question order and per-question shuffled option order
+let questionOrder = [];
+let optionOrders = []; // optionOrders[i] = shuffled indices for question i
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildShuffledDeck() {
+  questionOrder = shuffle([...Array(questions.length).keys()]);
+  optionOrders = questions.map(q => shuffle([...Array(q.opts.length).keys()]));
+}
+
+function loadQuestion() {
+  const qIdx = questionOrder[current];
+  const q = questions[qIdx];
+  const shuffledOpts = optionOrders[qIdx]; // e.g. [2, 0, 3, 1]
+  const correctOriginalIdx = q.ans;
+  // Find where the correct answer ended up after shuffle
+  const correctShuffledPos = shuffledOpts.indexOf(correctOriginalIdx);
+  const letters = ['A','B','C','D'];
+
+  document.getElementById('q-counter').textContent = current + 1;
+  document.getElementById('q-num').textContent = `${String(current+1).padStart(2,'0')} / 45`;
+
+  const badge = document.getElementById('q-badge');
+  badge.textContent = q.diff.toUpperCase();
+  badge.className = `q-badge ${q.diff}`;
+
+  document.getElementById('q-text').textContent = q.q;
+
+  const optsList = document.getElementById('options-list');
+  optsList.innerHTML = '';
+  shuffledOpts.forEach((origIdx, displayPos) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${letters[displayPos]}</span>${q.opts[origIdx]}`;
+    btn.onclick = () => selectOpt(displayPos, correctShuffledPos);
+    btn.id = `opt-${displayPos}`;
+    optsList.appendChild(btn);
+  });
+
+  // Reset UI
+  document.getElementById('feedback').classList.remove('show');
+  document.getElementById('notes-wrap').classList.remove('show');
+  document.getElementById('notes-input').value = notes[current] || '';
+  document.getElementById('btn-submit').disabled = true;
+  document.getElementById('btn-next').classList.remove('show');
+  document.getElementById('btn-next').textContent = current < questions.length - 1 ? 'Next Question' : 'See Results';
+
+  selected = null;
+  answered = false;
+
+  // Store correct shuffled position for submitAnswer to use
+  loadQuestion._correctPos = correctShuffledPos;
+
+  // Progress
+  const pct = (current / questions.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function selectOpt(displayPos, correctPos) {
+  if (answered) return;
+  selected = { displayPos, correctPos };
+  document.querySelectorAll('.option').forEach((b, idx) => {
+    b.classList.toggle('selected', idx === displayPos);
+  });
+  document.getElementById('btn-submit').disabled = false;
+}
+
+function submitAnswer() {
+  if (selected === null || answered) return;
+  answered = true;
+
+  const qIdx = questionOrder[current];
+  const q = questions[qIdx];
+  const { displayPos, correctPos } = selected;
+  const isCorrect = displayPos === correctPos;
+
+  document.querySelectorAll('.option').forEach((btn, i) => {
+    btn.disabled = true;
+    btn.classList.remove('selected');
+    if (i === correctPos) btn.classList.add(isCorrect && i === displayPos ? 'correct' : 'reveal');
+    if (i === displayPos && !isCorrect) btn.classList.add('wrong');
+  });
+
+  const banner = document.getElementById('feedback-banner');
+  banner.textContent = isCorrect ? 'Correct!' : 'Incorrect';
+  banner.className = `feedback-banner ${isCorrect ? 'correct-banner' : 'wrong-banner'}`;
+
+  document.getElementById('explanation-text').innerHTML = q.exp;
+  document.getElementById('feedback').classList.add('show');
+  document.getElementById('notes-wrap').classList.add('show');
+  document.getElementById('btn-submit').disabled = true;
+  document.getElementById('btn-next').classList.add('show');
+
+  if (isCorrect) {
+    score++;
+    diffScore[q.diff]++;
   }
 
-  function updateProgress() {
-    const answered = Object.keys(selected).length;
-    document.getElementById('progress-text').textContent = `${answered} answered`;
-    document.getElementById('progress-fill').style.width = `${(answered/total)*100}%`;
+  results.push({ q: q.q, correct: isCorrect, diff: q.diff });
+
+  const scoreLive = document.getElementById('score-live');
+  scoreLive.innerHTML = `Score: <span>${score}</span>`;
+  document.getElementById('progress-fill').style.width = ((current + 1) / questions.length * 100) + '%';
+}
+
+function nextQuestion() {
+  // Save notes
+  notes[current] = document.getElementById('notes-input').value;
+
+  current++;
+  if (current >= questions.length) {
+    showSummary();
+  } else {
+    loadQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showSummary() {
+  document.getElementById('question-area').style.display = 'none';
+  document.getElementById('progress-fill').style.width = '100%';
+
+  const pct = Math.round((score / questions.length) * 100);
+  document.getElementById('final-pct').textContent = pct + '%';
+  document.getElementById('final-fraction').textContent = `${score} / ${questions.length} correct`;
+
+  document.getElementById('s-easy').textContent = `${diffScore.easy}/${diffCount.easy}`;
+  document.getElementById('s-medium').textContent = `${diffScore.medium}/${diffCount.medium}`;
+  document.getElementById('s-hard').textContent = `${diffScore.hard}/${diffCount.hard}`;
+  document.getElementById('s-scenario').textContent = `${diffScore.scenario}/${diffCount.scenario}`;
+
+  const msg = pct === 100 ? 'Perfect score! You are fully ready for the IRAT.' :
+              pct >= 80 ? 'Strong result. Review the questions you missed and you are good to go.' :
+              pct >= 60 ? 'Good effort. Re-read the explanations for the questions you got wrong.' :
+              'Keep reviewing. Focus especially on the Hard and Scenario sections.';
+  document.getElementById('result-msg').textContent = msg;
+
+  // Notes review
+  const notesHtml = Object.entries(notes).filter(([,v]) => v && v.trim()).map(([i, v]) => `
+    <div class="note-item">
+      <div class="note-q">Q${parseInt(i)+1} - ${questions[i].diff.toUpperCase()}</div>
+      <div class="note-text">${v}</div>
+    </div>
+  `).join('');
+
+  if (notesHtml) {
+    document.getElementById('notes-review').innerHTML = `
+      <div class="notes-review">
+        <h3>// Your Notes</h3>
+        ${notesHtml}
+      </div>`;
   }
 
-  function toggleCard(qNum) {
-    // just visual — no expand/collapse needed since options always show
-  }
+  document.getElementById('summary').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-  function checkAll() {
-    let correct = 0;
-    for (let q = 1; q <= total; q++) {
-      const ans = answers[q];
-      const userAns = selected[q];
-      if (!userAns) continue;
-      revealed[q] = true;
-      const opts = ['A','B','C','D'];
-      opts.forEach(l => {
-        const el = document.getElementById(`${q}-${l}`);
-        el.classList.remove('selected');
-        if (l === ans) el.classList.add(userAns === ans ? 'correct' : 'reveal-correct');
-        if (l === userAns && userAns !== ans) el.classList.add('wrong');
-      });
-      const card = document.getElementById(`card-${q}`);
-      card.classList.remove('answered-correct','answered-wrong');
-      card.classList.add(userAns === ans ? 'answered-correct' : 'answered-wrong');
-      document.getElementById(`exp-${q}`).classList.add('show');
-      if (userAns === ans) correct++;
-    }
-    const answered = Object.keys(selected).length;
-    document.getElementById('live-score').textContent = `${correct} / ${answered} checked`;
-    if (answered === total) {
-      const pct = Math.round((correct/total)*100);
-      document.getElementById('result-panel').classList.add('show');
-      document.getElementById('final-grade').textContent = `${pct}%`;
-      let msg = pct === 100 ? '🏆 Perfect score! You are ready for the IRAT.' :
-                pct >= 80 ? '💪 Strong result. Review the highlighted questions.' :
-                pct >= 60 ? '📖 Good effort. Re-read the explanations for missed questions.' :
-                '🔁 Keep reviewing — focus on the scenario and hard sections.';
-      document.getElementById('result-msg').textContent = msg;
-    }
-  }
+function restartQuiz() {
+  current = 0; score = 0; selected = null; answered = false;
+  Object.keys(notes).forEach(k => delete notes[k]);
+  Object.keys(diffScore).forEach(k => diffScore[k] = 0);
+  buildShuffledDeck();
+  document.getElementById('question-area').style.display = 'block';
+  document.getElementById('summary').classList.remove('show');
+  document.getElementById('score-live').innerHTML = 'Score: <span>0</span>';
+  loadQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-  function resetAll() {
-    for (let q = 1; q <= total; q++) {
-      delete selected[q];
-      delete revealed[q];
-      const opts = ['A','B','C','D'];
-      opts.forEach(l => {
-        const el = document.getElementById(`${q}-${l}`);
-        el.className = 'option';
-        el.onclick = () => selectOption(q, l);
-      });
-      const card = document.getElementById(`card-${q}`);
-      card.classList.remove('answered-correct','answered-wrong');
-      document.getElementById(`exp-${q}`).classList.remove('show');
-    }
-    document.getElementById('live-score').textContent = '0 / 45';
-    document.getElementById('progress-text').textContent = '0 answered';
-    document.getElementById('progress-fill').style.width = '0%';
-    document.getElementById('result-panel').classList.remove('show');
-  }
+// Init
+buildShuffledDeck();
+loadQuestion();
 </script>
 </body>
 </html>
